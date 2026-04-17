@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>The Call Convert Sales System — Build a Predictable B2B Pipeline</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --color-primary:    #9bff8b;
+      --color-primary-dk: #7adb6a;
+      --color-dark:       #0a0a0a;
+      --color-dark-2:     #111111;
+      --color-dark-3:     #1a1a1a;
+      --color-light:      #f5f5f3;
+      --color-border:     rgba(255,255,255,0.08);
+      --color-text:       rgba(255,255,255,0.85);
+      --color-muted:      rgba(255,255,255,0.45);
+      --font-display: 'Syne', sans-serif;
+      --font-body:    'Inter', sans-serif;
+      --font-mono:    'DM Mono', monospace;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font-body); color: var(--color-text); background: var(--color-dark); }
+    h1, h2, h3 { font-family: var(--font-display); font-weight: 800; line-height: 1.05; letter-spacing: -0.02em; }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
+
+    .tag {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-primary);
+      border: 1px solid rgba(155,255,139,0.3);
+      padding: 0.3em 0.8em;
+      border-radius: 2px;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--color-primary);
+      color: #0a0a0a;
+      font-family: var(--font-display);
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      padding: 1.1rem 2rem;
+      font-size: 1.1rem;
+      border-radius: 3px;
+      text-align: center;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+    .btn-primary:hover { background: var(--color-primary-dk); transform: translateY(-1px); box-shadow: 0 8px 30px rgba(155,255,139,0.25); }
+
+    .check-row { display:flex; align-items:flex-start; gap:0.9rem; margin-bottom:1rem; }
+    .check-icon {
+      width:1.3rem; height:1.3rem; min-width:1.3rem;
+      border:1.5px solid var(--color-primary);
+      border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      color: var(--color-primary);
+      font-size:0.65rem;
+      margin-top:0.15rem;
+    }
+
+    .value-row {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:0.85rem 0;
+      border-bottom: 1px solid var(--color-border);
+      gap: 1rem;
+    }
+    .value-row:last-child { border-bottom:none; }
+    .value-price { font-family:var(--font-display); font-size:1.1rem; color: var(--color-primary); white-space:nowrap; }
+    .value-price.strike { color: rgba(255,255,255,0.25); text-decoration:line-through; }
+
+    .guarantee-wrap {
+      border: 1px solid rgba(155,255,139,0.3);
+      border-radius: 6px;
+      padding: 2rem;
+      text-align: center;
+      position: relative;
+      background: rgba(155,255,139,0.03);
+    }
+    .guarantee-label {
+      position: absolute;
+      top: -0.8rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--color-primary);
+      color: #0a0a0a;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.25em 1em;
+      border-radius: 2px;
+      white-space: nowrap;
+      font-weight: 600;
+    }
+
+    .prose-section { max-width: 680px; margin: 0 auto; }
+    .prose-section p { font-size: 0.97rem; line-height: 1.8; color: rgba(255,255,255,0.75); margin-bottom: 1.1rem; }
+    .prose-section p strong { color: #fff; }
+
+    @keyframes marquee { 0%{transform:translateX(0);} 100%{transform:translateX(-50%);} }
+    .marquee-track { display:flex; width:max-content; animation: marquee 22s linear infinite; }
+    .marquee-track-rev { animation-direction:reverse; }
+
+    details summary { cursor:pointer; list-style:none; }
+    details summary::-webkit-details-marker { display:none; }
+    details[open] summary .arrow { transform:rotate(180deg); }
+    .arrow { transition:transform 0.2s; display:inline-block; }
+
+    .sticky-cta { position:fixed; bottom:0; left:0; right:0; z-index:50; padding:1rem; background: rgba(10,10,10,0.95); border-top:1px solid var(--color-border); backdrop-filter: blur(10px); }
+    @media(min-width:768px) { .sticky-cta { display:none; } }
+
+    @keyframes fadeUp { from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);} }
+    .fade-up { animation: fadeUp 0.5s ease both; }
+
+    .section-dark { background: var(--color-dark); position:relative; z-index:1; }
+    .section-card { background: var(--color-dark-2); border-top: 1px solid var(--color-border); position:relative; z-index:1; }
+    .section-alt { background: var(--color-dark-3); border-top: 1px solid var(--color-border); position:relative; z-index:1; }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav style="border-bottom: 1px solid var(--color-border); position: relative; z-index: 10;" class="px-6 py-5 flex justify-between items-center max-w-6xl mx-auto">
+  <img src="https://callconvert.co.uk/img/logo/callconvert-logo.svg" alt="Call Convert" class="h-8" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+  <span style="display:none; font-family:var(--font-display); font-size:1.1rem; font-weight:700; color:#fff;">CALL CONVERT</span>
+  <a href="05-booking.html" class="tag" style="text-decoration:none; cursor:pointer; color: var(--color-primary);">Book a Call →</a>
+</nav>
+
+<!-- BLOCK 1: HERO -->
+<section class="section-dark px-6 py-20 md:py-28 text-center fade-up">
+  <div style="max-width: 820px; margin: 0 auto;">
+
+    <div class="tag" style="margin-bottom: 1.25rem;">For B2B Sales Leaders Across the UK</div>
+
+    <h1 style="font-size: clamp(2.6rem, 6vw, 5rem); color:#fff; margin-bottom: 1.5rem;">
+      Stop Guessing.<br/>
+      Start Building a<br/>
+      <span style="color: var(--color-primary);">Predictable Pipeline.</span>
+    </h1>
+
+    <p style="font-size: 1.1rem; color: var(--color-muted); max-width: 600px; margin: 0 auto 2.5rem; line-height: 1.7;">
+      The Call Convert Sales System finds, qualifies, and converts your ideal clients — across LinkedIn, email, and phone. Fully managed. Fully accountable. No headcount required.
+    </p>
+
+    <div style="display:flex; justify-content:center; margin-bottom: 2rem;">
+      <a href="05-booking.html" class="btn-primary">
+        Book My Free Discovery Call →
+      </a>
+    </div>
+
+    <p style="font-size:0.85rem; color: rgba(255,255,255,0.3);">
+      ⚡ We onboard a maximum of 3 new clients per month. If you're seeing this, there may be availability — the call confirms it.
+    </p>
+
+    <!-- Social proof row -->
+    <div style="margin-top:2.5rem; display:flex; flex-wrap:wrap; justify-content:center; gap:1.5rem 3rem; align-items:center; opacity:0.7;">
+      <div style="display:flex; align-items:center; gap:0.4rem; color:#facc15;">★★★★★ <span style="color: var(--color-muted); font-size:0.85rem; margin-left:0.2rem;">5-star rated · Google</span></div>
+      <span style="color: var(--color-muted); font-size:0.85rem;">🇬🇧 UK-based · 3 years operating</span>
+      <span style="color: var(--color-muted); font-size:0.85rem;">📈 £4.1M pipeline built for one client in 6 months</span>
+    </div>
+
+  </div>
+</section>
+
+<!-- BLOCK 2: TICKER -->
+<div style="border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border); overflow:hidden; position:relative; z-index:1; padding: 0.7rem 0; background: var(--color-dark-3);">
+  <div class="marquee-track" style="color: var(--color-muted); font-family:var(--font-mono); font-size:0.7rem; letter-spacing:0.08em; text-transform:uppercase;">
+    <span style="margin: 0 2.5rem;">ICP Build</span>
+    <span style="margin: 0 1rem; color:rgba(255,255,255,0.15);">·</span>
+    <span style="margin: 0 2.5rem;">Validated Prospect Data</span>
+    <span style="margin: 0 1rem; color:rgba(255,255,255,0.15);">·</span>
+    <span style="margin: 0 2.5rem;">LinkedIn Outreach</span>
+    <span style="margin: 0 1rem; color:rgba(255,255,255,0.15);">·</span>
+    <span style="margin: 0 2.5rem;">Cold Email Campaigns</span>
+    <span style="margin: 0 1rem; color:rgba(255,255,255,0.15);">·</span>
+    <span style="margin: 0 2.5rem;">Outbound Calling</span>
+    <span style="margin: 0 1rem; color:rgba(255,255,255,0.15);">·</span>
+    <span style="margin: 0 2.5rem;">Live Buyer Signals</span>
+    <span style="margin: 0 1rem; color:rgba(255,255,255,0.15);">·</span>
+    <span style="margin: 0 2.5rem;">Lead Scoring</span>
+    <span style="margin: 0 1rem; color:rgba(255,255,255,0.15);">·</span>
+    <span style="margin: 0 2.5rem;">Weekly Reporting</span>
+    <span style="margin: 0 1rem; color:rgba(255,255,255,0.15);">·</span>
+  </div>
+</div>
+
+<!-- BLOCK 3: SALES LETTER INTRO -->
+<section class="section-card px-6 py-20">
+  <div class="prose-section">
+
+    <h2 style="font-size: clamp(2rem, 4vw, 3.2rem); color:#fff; margin-bottom: 2rem; text-align:center;">
+      If Your Business Runs On<br/>
+      <span style="color: var(--color-primary);">Referrals and Hope,<br/>Read This.</span>
+    </h2>
+
+    <p style="font-family: var(--font-mono); font-size:0.75rem; letter-spacing:0.05em; color: var(--color-muted); margin-bottom:2rem;">From the team at Call Convert · UK · April 2025</p>
+
+    <p>If you're a Sales Director, Founder, or BDM and your pipeline looks different every month — sometimes full, sometimes terrifyingly quiet — this page is written for you.</p>
+
+    <p>Because the problem isn't your product. It isn't your team. And it isn't that B2B sales is just "hard right now."</p>
+
+    <p><strong>The problem is that you don't have a system. You have activity.</strong></p>
+
+    <p>And activity — manual LinkedIn searches, generic email blasts, CRM chasing — is exhausting, inconsistent, and produces results that look nothing like what the business needs.</p>
+
+    <p>We've seen this with every client we've ever onboarded. They come to us after trying it themselves, after trying another agency, after hiring an SDR who left six months later with nothing concrete to show. Each time, the same story: lots of effort, not enough pipeline.</p>
+
+    <p><strong>Call Convert was built to solve exactly this.</strong> We find your ideal clients. We build a validated, enriched prospect list. We monitor live buying signals. We contact them via LinkedIn, email, and phone — every prospect, fully worked, until we know definitively whether they're buying or not. Then we hand your team qualified, engaged meetings.</p>
+
+    <p>Nothing is left unworked. No stone is left unturned. That's not marketing language — it's a contractual commitment.</p>
+
+    <div style="margin:2.5rem 0; display:flex; justify-content:center;">
+      <a href="05-booking.html" class="btn-primary">
+        Book My Free Discovery Call →
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- BLOCK 4: WHAT'S INCLUDED -->
+<section class="section-alt px-6 py-20">
+  <div style="max-width:680px; margin: 0 auto;">
+
+    <div style="text-align:center; margin-bottom:2.5rem;">
+      <h2 style="font-size: clamp(2rem, 4vw, 3.2rem); color:#fff; margin-bottom:0.75rem;">
+        Everything Inside<br/>
+        <span style="color: var(--color-primary);">The Sales System</span>
+      </h2>
+      <p style="font-size:0.9rem; color: var(--color-muted);">No guesswork. No filler. A complete system with no gaps.</p>
+    </div>
+
+    <div class="check-row">
+      <div class="check-icon">✓</div>
+      <p style="font-size:0.9rem; color: var(--color-text); line-height:1.6;"><strong style="color:#fff;">ICP Build & Sales Territory Mapping.</strong> We build your ideal client profile from scratch — firmographic, behavioural, and role-level precision. Not a category — a specific, actionable profile.</p>
+    </div>
+    <div class="check-row">
+      <div class="check-icon">✓</div>
+      <p style="font-size:0.9rem; color: var(--color-text); line-height:1.6;"><strong style="color:#fff;">Fully enriched & validated live prospect data.</strong> Right person, right role, right direct contact details — verified before anyone makes contact. No outdated lists, no bounced emails.</p>
+    </div>
+    <div class="check-row">
+      <div class="check-icon">✓</div>
+      <p style="font-size:0.9rem; color: var(--color-text); line-height:1.6;"><strong style="color:#fff;">Live buyer signal monitoring.</strong> We watch for signals that tell us when a prospect is actively in a buying cycle — so we reach out at the moment they're most likely to engage.</p>
+    </div>
+    <div class="check-row">
+      <div class="check-icon">✓</div>
+      <p style="font-size:0.9rem; color: var(--color-text); line-height:1.6;"><strong style="color:#fff;">LinkedIn & email outreach campaigns.</strong> Automated, personalised, sequenced messaging built around your prospect's actual situation — not a generic template.</p>
+    </div>
+    <div class="check-row">
+      <div class="check-icon">✓</div>
+      <p style="font-size:0.9rem; color: var(--color-text); line-height:1.6;"><strong style="color:#fff;">Outbound call activity.</strong> Our team calls every prospect at the right moment. Not cold — informed, timed, and built on the research and signals we've already gathered.</p>
+    </div>
+    <div class="check-row">
+      <div class="check-icon">✓</div>
+      <p style="font-size:0.9rem; color: var(--color-text); line-height:1.6;"><strong style="color:#fff;">Lead scoring.</strong> Every prospect is scored and prioritised. Your team always knows who to focus on and why.</p>
+    </div>
+    <div class="check-row">
+      <div class="check-icon">✓</div>
+      <p style="font-size:0.9rem; color: var(--color-text); line-height:1.6;"><strong style="color:#fff;">Weekly reporting & strategy meetings.</strong> 16 weekly sessions over the 4-month trial. You always know what's in the pipeline, what's progressing, and what we're optimising.</p>
+    </div>
+    <div class="check-row">
+      <div class="check-icon">✓</div>
+      <p style="font-size:0.9rem; color: var(--color-text); line-height:1.6;"><strong style="color:#fff;">AI ICP Optimisation — monthly.</strong> We use AI to refine and improve your prospect profile every month based on response data and conversion signals.</p>
+    </div>
+    <div class="check-row">
+      <div class="check-icon">✓</div>
+      <p style="font-size:0.9rem; color: var(--color-text); line-height:1.6;"><strong style="color:#fff;">Ongoing nurture of every prospect.</strong> Every single person who enters the system gets worked — not dropped after the first no. We nurture until we know definitively where they stand.</p>
+    </div>
+
+    <div style="margin-top:2.5rem; text-align:center;">
+      <a href="05-booking.html" class="btn-primary">
+        Book My Free Discovery Call →
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- BLOCK 5: TESTIMONIALS -->
+<section class="section-card px-6 py-20">
+  <div style="max-width: 820px; margin: 0 auto;">
+
+    <h2 style="font-size: clamp(2rem, 4vw, 3rem); color:#fff; text-align:center; margin-bottom:2.5rem;">
+      What Clients<br/>
+      <span style="color: var(--color-primary);">Actually Say</span>
+    </h2>
+
+    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:1.25rem; margin-bottom:2.5rem;">
+
+      <div style="background: var(--color-dark-3); border: 1px solid var(--color-border); border-radius:6px; padding:1.5rem;">
+        <div style="color:#facc15; font-size:0.9rem; margin-bottom:0.75rem;">★★★★★</div>
+        <!-- SWAP: photo -->
+        <p style="font-size:0.875rem; color: var(--color-text); line-height:1.7; margin-bottom:1rem; font-style:italic;">"We have used Call Convert for lead generation for over 12 months. They have delivered quality leads throughout that time. Our contact rate is great and we have converted many of them into long lasting clients. Their overall communication and ongoing optimisation based on our feedback means our outbound lead generation strategy is getting better and better over time."</p>
+        <p style="font-size:0.75rem; color: var(--color-muted); font-weight:600;">— Peter Hobson</p>
+      </div>
+
+      <div style="background: var(--color-dark-3); border: 1px solid var(--color-border); border-radius:6px; padding:1.5rem;">
+        <div style="color:#facc15; font-size:0.9rem; margin-bottom:0.75rem;">★★★★★</div>
+        <p style="font-size:0.875rem; color: var(--color-text); line-height:1.7; margin-bottom:1rem; font-style:italic;">"Great company. Good communication, reactivity and quality. Shout out to Andy and Craig who are quick to respond and are always checking in."</p>
+        <p style="font-size:0.75rem; color: var(--color-muted); font-weight:600;">— Oliver Tucker</p>
+      </div>
+
+      <div style="background: var(--color-dark-3); border: 1px solid var(--color-border); border-radius:6px; padding:1.5rem;">
+        <div style="color:#facc15; font-size:0.9rem; margin-bottom:0.75rem;">★★★★★</div>
+        <p style="font-size:0.875rem; color: var(--color-text); line-height:1.7; margin-bottom:1rem; font-style:italic;">"A breath of fresh air in a highly competitive market. Irrespective of the market they are working in, their dedication to delivering quality leads is paramount. Their wide reach and impressive network ensures they often bring out of the box solutions to the table."</p>
+        <p style="font-size:0.75rem; color: var(--color-muted); font-weight:600;">— Keiran Wyatt-Nicolle</p>
+      </div>
+
+      <!-- Case study highlight -->
+      <div style="background: rgba(155,255,139,0.06); border: 1px solid rgba(155,255,139,0.2); border-radius:6px; padding:1.5rem;">
+        <div style="font-family: var(--font-mono); font-size:0.65rem; letter-spacing:0.1em; text-transform:uppercase; color: var(--color-primary); margin-bottom:0.75rem;">Case Study · Plug Me In</div>
+        <div style="font-family: var(--font-display); font-size:2.2rem; color: var(--color-primary); margin-bottom:0.3rem;">£4.1M</div>
+        <p style="font-size:0.875rem; color: var(--color-text); line-height:1.7;">Pipeline built from zero in 6 months. B2B commercial solar provider. ICP built from scratch, outreach across LinkedIn, email, and phone.</p>
+        <p style="font-size:0.75rem; color: var(--color-muted); margin-top:0.75rem;">Starting pipeline: £0 → 6 months later: £4.1M</p>
+      </div>
+
+    </div>
+
+    <div style="text-align:center;">
+      <a href="05-booking.html" class="btn-primary">
+        Book My Free Discovery Call →
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- BLOCK 6: WHO THIS IS FOR -->
+<section class="section-alt px-6 py-20">
+  <div style="max-width:680px; margin:0 auto;">
+
+    <h2 style="font-size: clamp(2rem, 4vw, 3.2rem); color:#fff; text-align:center; margin-bottom:2.5rem;">
+      Is This<br/>
+      <span style="color: var(--color-primary);">Right For You?</span>
+    </h2>
+
+    <div class="check-row">
+      <div class="check-icon">✓</div>
+      <p style="font-size:0.9rem; color: var(--color-text); line-height:1.6;">You're a <strong style="color:#fff;">Sales Director, BDM, or Founder</strong> and your pipeline is inconsistent — good some months, worrying others.</p>
+    </div>
+    <div class="check-row">
+      <div class="check-icon">✓</div>
+      <p style="font-size:0.9rem; color: var(--color-text); line-height:1.6;">You rely too heavily on <strong style="color:#fff;">referrals and introductions</strong> — you know it, and you know it's not scalable.</p>
+    </div>
+    <div class="check-row">
+      <div class="check-icon">✓</div>
+      <p style="font-size:0.9rem; color: var(--color-text); line-height:1.6;">You've <strong style="color:#fff;">tried agencies before</strong> and been burned — templated emails, poor-quality data, zero accountability.</p>
+    </div>
+    <div class="check-row">
+      <div class="check-icon">✓</div>
+      <p style="font-size:0.9rem; color: var(--color-text); line-height:1.6;">You want your team <strong style="color:#fff;">closing deals</strong> — not spending 3 hours a day prospecting on LinkedIn.</p>
+    </div>
+    <div class="check-row">
+      <div class="check-icon">✓</div>
+      <p style="font-size:0.9rem; color: var(--color-text); line-height:1.6;">You sell a <strong style="color:#fff;">B2B product or service</strong> to other businesses and you need qualified, engaged meetings — not lists of names.</p>
+    </div>
+    <div class="check-row">
+      <div class="check-icon">✓</div>
+      <p style="font-size:0.9rem; color: var(--color-text); line-height:1.6;">You're serious about growth and you're ready to <strong style="color:#fff;">back it properly</strong> — not dip a toe in and see what happens.</p>
+    </div>
+
+    <p style="font-size:0.95rem; color: var(--color-muted); line-height:1.7; margin-top:1.5rem; margin-bottom:2rem;">If those points land — the Call Convert Sales System was built for you.</p>
+
+    <div style="text-align:center;">
+      <a href="05-booking.html" class="btn-primary">
+        Book My Free Discovery Call →
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- BLOCK 7: VALUE STACK -->
+<section class="section-card px-6 py-20">
+  <div style="max-width:680px; margin:0 auto;">
+
+    <div style="text-align:center; margin-bottom:2.5rem;">
+      <h2 style="font-size: clamp(2rem, 4vw, 3.2rem); color:#fff; margin-bottom:0.75rem;">
+        What You're<br/>
+        <span style="color: var(--color-primary);">Actually Getting</span>
+      </h2>
+      <p style="font-size:0.9rem; color: var(--color-muted);">The honest breakdown of what the 4-month trial is worth — and what you pay.</p>
+    </div>
+
+    <div style="background: var(--color-dark-3); border: 1px solid var(--color-border); border-radius:6px; padding: 1.75rem; margin-bottom:2rem;">
+
+      <div class="value-row">
+        <span style="font-size:0.875rem; color: var(--color-muted);">ICP Build & Sales Territory Mapping</span>
+        <span class="value-price strike">£1,500</span>
+      </div>
+      <div class="value-row">
+        <span style="font-size:0.875rem; color: var(--color-muted);">Fully enriched & validated live prospect data</span>
+        <span class="value-price strike">£2,000</span>
+      </div>
+      <div class="value-row">
+        <span style="font-size:0.875rem; color: var(--color-muted);">LinkedIn outreach campaign (4 months)</span>
+        <span class="value-price strike">£3,600</span>
+      </div>
+      <div class="value-row">
+        <span style="font-size:0.875rem; color: var(--color-muted);">Cold email campaign with deliverability setup</span>
+        <span class="value-price strike">£2,400</span>
+      </div>
+      <div class="value-row">
+        <span style="font-size:0.875rem; color: var(--color-muted);">Outbound call activity & SDR coverage (4 months)</span>
+        <span class="value-price strike">£6,400</span>
+      </div>
+      <div class="value-row">
+        <span style="font-size:0.875rem; color: var(--color-muted);">Live buyer signal monitoring</span>
+        <span class="value-price strike">£1,200</span>
+      </div>
+      <div class="value-row">
+        <span style="font-size:0.875rem; color: var(--color-muted);">16 weekly reporting & strategy sessions</span>
+        <span class="value-price strike">£3,200</span>
+      </div>
+      <div class="value-row">
+        <span style="font-size:0.875rem; color: var(--color-muted);">AI ICP Optimisation × 4 months</span>
+        <span class="value-price strike">£2,000</span>
+      </div>
+      <div class="value-row">
+        <span style="font-size:0.875rem; color: var(--color-muted);">Ongoing nurture of all prospects in the system</span>
+        <span class="value-price strike">£1,800</span>
+      </div>
+
+      <!-- Bonuses -->
+      <div style="border-top: 1px solid rgba(155,255,139,0.2); margin-top:1rem; padding-top:1rem;">
+        <div style="font-family: var(--font-mono); font-size:0.65rem; letter-spacing:0.1em; color: var(--color-primary); margin-bottom:0.75rem; text-transform:uppercase;">Bonuses Included</div>
+        <div class="value-row">
+          <span style="font-size:0.875rem; color: var(--color-muted);">BONUS: Pipeline Kickstart Call (Week 1 strategy deep-dive)</span>
+          <span class="value-price strike">£500</span>
+        </div>
+        <div class="value-row">
+          <span style="font-size:0.875rem; color: var(--color-muted);">BONUS: Competitor Intel Report — who your ICP is already talking to</span>
+          <span class="value-price strike">£300</span>
+        </div>
+        <div class="value-row">
+          <span style="font-size:0.875rem; color: var(--color-muted);">BONUS: Rate lock — keep trial pricing for full 12-month contract</span>
+          <span class="value-price">Priceless</span>
+        </div>
+      </div>
+
+      <div style="border-top: 1px solid var(--color-border); margin-top:1.25rem; padding-top:1.25rem;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
+          <span style="font-size:0.875rem; color: var(--color-muted);">Total real-world value</span>
+          <span class="value-price strike" style="font-size:1rem;">£24,900+</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <span style="font-family:var(--font-display); font-size:1rem; color:#fff; font-weight:700;">Your investment (4-month trial)</span>
+          <div style="text-align:right;">
+            <div style="font-family:var(--font-display); font-size:2.5rem; color: var(--color-primary);">£2,250<span style="font-size:1.2rem;">/mo</span></div>
+          </div>
+        </div>
+        <p style="font-size:0.75rem; color: var(--color-muted); text-align:right; margin-top:0.4rem;">vs. a mid-level SDR at £3,000–3,500/month salary alone</p>
+      </div>
+
+    </div>
+
+    <div style="text-align:center;">
+      <a href="05-booking.html" class="btn-primary">
+        Book My Free Discovery Call →
+      </a>
+      <p style="font-size:0.8rem; color: rgba(255,255,255,0.3); margin-top:0.75rem;">Price confirmed on the call · No hidden fees</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- BLOCK 8: GUARANTEE -->
+<section class="section-alt px-6 py-20">
+  <div style="max-width:580px; margin:0 auto;">
+
+    <h2 style="font-size: clamp(2rem, 4vw, 3rem); color:#fff; text-align:center; margin-bottom:2.5rem;">
+      Our<br/>
+      <span style="color: var(--color-primary);">Guarantee</span>
+    </h2>
+
+    <div class="guarantee-wrap" style="margin-bottom:2rem;">
+      <div class="guarantee-label">100% Guarantee</div>
+      <div style="font-size:3rem; margin-bottom:1rem;">🛡️</div>
+      <h3 style="font-family:var(--font-display); font-size:1.6rem; color:#fff; margin-bottom:1rem;">The "No Stone Unturned" Guarantee</h3>
+      <p style="font-size:0.9rem; color: var(--color-muted); line-height:1.8;">Complete the 4-month trial. Work with our team. Give us honest feedback each week. If at the end of 4 months your pipeline hasn't grown — meaning no new qualified meetings have been booked and no new prospects have entered your sales system — we'll refund your final month in full. No negotiation. No argument. No small print. We've never had to pay it out. That's how confident we are in what we do.</p>
+    </div>
+
+    <p style="font-size:0.875rem; color: var(--color-muted); text-align:center; line-height:1.7;">
+      We can offer this because we've seen the system work for businesses that were convinced they'd "already tried everything." Every prospect in the system gets worked. No exceptions.
+    </p>
+
+  </div>
+</section>
+
+<!-- BLOCK 9: FAQ -->
+<section class="section-card px-6 py-20">
+  <div style="max-width:680px; margin:0 auto;">
+
+    <h2 style="font-size: clamp(2rem, 4vw, 3rem); color:#fff; text-align:center; margin-bottom:2.5rem;">
+      Your Questions<br/>
+      <span style="color: var(--color-primary);">Answered</span>
+    </h2>
+
+    <div style="display:flex; flex-direction:column; gap:0.75rem;">
+
+      <details style="background: var(--color-dark-3); border: 1px solid var(--color-border); border-radius:6px; padding: 1.25rem 1.5rem;">
+        <summary style="display:flex; justify-content:space-between; align-items:center; font-weight:600; color:#fff; font-size:0.95rem; padding: 0.25rem 0; cursor:pointer;">
+          We've tried agencies before and it didn't work. How is this different?
+          <span class="arrow" style="color: var(--color-primary); margin-left:1rem; font-size:0.9rem;">▼</span>
+        </summary>
+        <p style="font-size:0.875rem; color: var(--color-muted); line-height:1.7; margin-top:1rem;">Most agencies send templated messages to generic lists. We don't. Every campaign starts with your specific ICP, built from scratch. The data is validated before anyone contacts them. Buying signals tell us when to reach out. That's a fundamentally different product — and the results are fundamentally different too.</p>
+      </details>
+
+      <details style="background: var(--color-dark-3); border: 1px solid var(--color-border); border-radius:6px; padding: 1.25rem 1.5rem;">
+        <summary style="display:flex; justify-content:space-between; align-items:center; font-weight:600; color:#fff; font-size:0.95rem; padding: 0.25rem 0; cursor:pointer;">
+          How many meetings can you guarantee?
+          <span class="arrow" style="color: var(--color-primary); margin-left:1rem; font-size:0.9rem;">▼</span>
+        </summary>
+        <p style="font-size:0.875rem; color: var(--color-muted); line-height:1.7; margin-top:1rem;">Nobody can guarantee a specific number without knowing your market, your offer, and your sales cycle. What we can guarantee is this: every prospect that enters the system gets worked fully — LinkedIn, email, and phone — until we know whether they're buying or not. Nothing is left unworked. You get a live pipeline view at all times. And if after 4 months your pipeline hasn't grown, your final month is refunded.</p>
+      </details>
+
+      <details style="background: var(--color-dark-3); border: 1px solid var(--color-border); border-radius:6px; padding: 1.25rem 1.5rem;">
+        <summary style="display:flex; justify-content:space-between; align-items:center; font-weight:600; color:#fff; font-size:0.95rem; padding: 0.25rem 0; cursor:pointer;">
+          How much management time does this take from us?
+          <span class="arrow" style="color: var(--color-primary); margin-left:1rem; font-size:0.9rem;">▼</span>
+        </summary>
+        <p style="font-size:0.875rem; color: var(--color-muted); line-height:1.7; margin-top:1rem;">Your involvement is a weekly 30-minute reporting meeting and attending the meetings we book. That's it. The system, the outreach, the nurturing — we run all of it. Your team's job is to close the meetings we deliver.</p>
+      </details>
+
+      <details style="background: var(--color-dark-3); border: 1px solid var(--color-border); border-radius:6px; padding: 1.25rem 1.5rem;">
+        <summary style="display:flex; justify-content:space-between; align-items:center; font-weight:600; color:#fff; font-size:0.95rem; padding: 0.25rem 0; cursor:pointer;">
+          What does £2,250/month actually compare to?
+          <span class="arrow" style="color: var(--color-primary); margin-left:1rem; font-size:0.9rem;">▼</span>
+        </summary>
+        <p style="font-size:0.875rem; color: var(--color-muted); line-height:1.7; margin-top:1rem;">A mid-level SDR in the UK costs £35,000–£45,000 per year in salary alone — that's £2,900–£3,750/month before National Insurance, before tools, before a 4–6 month ramp period before they're effective. And they leave. At £2,250/month, you get a full team, a proven system, live data, and a guarantee. The risk calculation isn't close.</p>
+      </details>
+
+      <details style="background: var(--color-dark-3); border: 1px solid var(--color-border); border-radius:6px; padding: 1.25rem 1.5rem;">
+        <summary style="display:flex; justify-content:space-between; align-items:center; font-weight:600; color:#fff; font-size:0.95rem; padding: 0.25rem 0; cursor:pointer;">
+          What happens after the 4-month trial?
+          <span class="arrow" style="color: var(--color-primary); margin-left:1rem; font-size:0.9rem;">▼</span>
+        </summary>
+        <p style="font-size:0.875rem; color: var(--color-muted); line-height:1.7; margin-top:1rem;">If you want to continue — and the vast majority of clients do — you move into a 12-month contract at the same rate. Everything you've built in the trial (ICP, prospect data, campaign history) carries over and compounds. The system keeps building, the pipeline keeps growing.</p>
+      </details>
+
+      <details style="background: var(--color-dark-3); border: 1px solid var(--color-border); border-radius:6px; padding: 1.25rem 1.5rem;">
+        <summary style="display:flex; justify-content:space-between; align-items:center; font-weight:600; color:#fff; font-size:0.95rem; padding: 0.25rem 0; cursor:pointer;">
+          Do you work with any B2B business?
+          <span class="arrow" style="color: var(--color-primary); margin-left:1rem; font-size:0.9rem;">▼</span>
+        </summary>
+        <p style="font-size:0.875rem; color: var(--color-muted); line-height:1.7; margin-top:1rem;">We work with B2B businesses of 3+ people across the UK. We don't work with B2C businesses or 1–2 person operations — the system isn't designed for them and we won't take your money knowing that. The discovery call is where we confirm fit honestly.</p>
+      </details>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- BLOCK 10: FINAL CTA -->
+<section class="section-alt px-6 py-24 text-center">
+  <div style="max-width:620px; margin:0 auto; position:relative; z-index:1;">
+
+    <h2 style="font-size: clamp(2.2rem, 5vw, 3.8rem); color:#fff; margin-bottom:1rem;">
+      Don't Let Another Quarter<br/>
+      <span style="color: var(--color-primary);">Pass Without A Pipeline.</span>
+    </h2>
+
+    <p style="font-size:1.05rem; color: var(--color-muted); line-height:1.7; margin-bottom:2.5rem; margin-top:1rem;">
+      Every month without a system is another month of inconsistency, of chasing the wrong leads, and of leaving revenue on the table that your competitors are picking up. Book a free 20-minute call. We'll tell you honestly if we can help.
+    </p>
+
+    <a href="05-booking.html" class="btn-primary" style="max-width:480px; display:inline-flex;">
+      Book My Free Discovery Call →
+    </a>
+
+    <p style="font-size:0.8rem; color: rgba(255,255,255,0.25); margin-top:1.25rem;">
+      Call Convert · callconvert.co.uk · hello@callconvert.co.uk
+    </p>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer style="border-top: 1px solid var(--color-border); position:relative; z-index:1; background: var(--color-dark);" class="py-6 px-6 text-center">
+  <p style="font-size:0.75rem; color: var(--color-muted);">
+    © <span id="year"></span> Call Convert. All Rights Reserved.
+    &nbsp;|&nbsp;<a href="#" style="color: var(--color-muted); text-decoration:none;">Privacy Policy</a>
+    &nbsp;|&nbsp;<a href="#" style="color: var(--color-muted); text-decoration:none;">Earnings Disclaimer</a>
+    &nbsp;|&nbsp;<a href="#" style="color: var(--color-muted); text-decoration:none;">Terms & Conditions</a>
+  </p>
+</footer>
+
+<!-- STICKY CTA (mobile) -->
+<div class="sticky-cta">
+  <a href="05-booking.html" class="btn-primary" style="font-size:1rem; padding:0.9rem 1.5rem;">
+    Book Free Discovery Call →
+  </a>
+</div>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+  document.querySelectorAll('.marquee-track').forEach(t => { t.innerHTML += t.innerHTML; });
+</script>
+
+</body>
+</html>
