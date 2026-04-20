@@ -3,619 +3,1879 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>The Call Convert Sales System — Build a Predictable B2B Pipeline</title>
+  <title>Call Convert — Build a Predictable B2B Pipeline</title>
+  <!-- VERSION B: External CTA — no on-page form. SWAP href on .btn-cta-strip with booking URL. -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;900&family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --color-primary:    #9bff8b;
-      --color-primary-dk: #7adb6a;
-      --color-dark:       #0a0a0a;
-      --color-dark-2:     #111111;
-      --color-dark-3:     #1a1a1a;
-      --color-light:      #f5f5f3;
-      --color-border:     rgba(255,255,255,0.08);
-      --color-text:       rgba(255,255,255,0.85);
-      --color-muted:      rgba(255,255,255,0.45);
-      --font-display: 'Syne', sans-serif;
+      --color-bg-dark:          #0a0a0a;
+      --color-bg-mid:           #141414;
+      --color-bg-light:         #f5f4f0;
+      --color-bg-white:         #ffffff;
+      --color-text-dark:        #111111;
+      --color-text-light:       #f0f0f0;
+      --color-text-muted-dark:  #444444;
+      --color-text-muted-light: #a0a0a0;
+      --color-accent:           #9bff8b;
+      --color-accent-dk:        #72d464;
+      --color-accent-text:      #0a2406;
+      --font-display: 'Outfit', sans-serif;
       --font-body:    'Inter', sans-serif;
-      --font-mono:    'DM Mono', monospace;
+      --font-serif:   'Lora', serif;
     }
+
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: var(--font-body); color: var(--color-text); background: var(--color-dark); }
-    h1, h2, h3 { font-family: var(--font-display); font-weight: 800; line-height: 1.05; letter-spacing: -0.02em; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-body); background: var(--color-bg-dark); color: var(--color-text-light); }
 
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-      pointer-events: none;
-      z-index: 0;
-      opacity: 0.4;
+    /* ── TICKER ── */
+    .ticker-wrap {
+      background: var(--color-bg-light);
+      overflow: hidden;
+      padding: 0.55rem 0;
+      position: relative;
+      z-index: 10;
+    }
+    .ticker-track {
+      display: flex;
+      width: max-content;
+      animation: tickerScroll 30s linear infinite;
+    }
+    .ticker-track span {
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--color-accent-text);
+      padding: 0 2.5rem;
+      white-space: nowrap;
+    }
+    @keyframes tickerScroll {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
     }
 
-    .tag {
+    /* ── NAV ── */
+    .nav {
+      background: var(--color-bg-dark);
+      border-bottom: 1px solid rgba(155,255,139,0.08);
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .nav-logo {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 1.25rem;
+      color: #ffffff;
+      letter-spacing: -0.02em;
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--color-accent); }
+    .nav-cta {
+      background: var(--color-accent);
+      color: var(--color-accent-text);
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.04em;
+      padding: 0.55rem 1.25rem;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .nav-cta:hover { background: var(--color-accent-dk); transform: translateY(-1px); }
+
+    /* ── HERO ── */
+    .hero {
+      background: var(--color-bg-dark);
+      position: relative;
+      overflow: hidden;
+      padding: 5rem 1.5rem 4rem;
+      text-align: center;
+    }
+    /* Hero background image layer */
+    .hero-bg-image {
+      position: absolute;
+      inset: 0;
+      background-image: url('[SWAP: hero background image — recommended 1600x900px, dark office / sales team environment]');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      z-index: 0;
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(10,10,10,0.82) 0%, rgba(10,10,10,0.92) 100%);
+      z-index: 1;
+    }
+    /* VSL video container — hidden by default */
+    .hero-video-wrap { display: none; }
+    body.vsl-mode .hero-bg-image { display: none; }
+    body.vsl-mode .hero-video-wrap {
+      display: block;
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto 2rem;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid rgba(155,255,139,0.15);
+      aspect-ratio: 16/9;
+      background: #000;
+    }
+    body.vsl-mode .hero-video-iframe { width: 100%; height: 100%; display: block; }
+    .hero-video-placeholder {
+      width: 100%; height: 100%; min-height: 260px;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      background: rgba(255,255,255,0.04);
+      color: rgba(255,255,255,0.25); gap: 0.75rem;
+    }
+    .play-icon { font-size: 3rem; opacity: 0.3; }
+    body.vsl-mode .hero-overlay { opacity: 0.6; }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .hero-eyebrow {
       display: inline-block;
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      letter-spacing: 0.1em;
+      font-family: var(--font-display);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: var(--color-primary);
+      color: var(--color-accent);
+      margin-bottom: 1.25rem;
       border: 1px solid rgba(155,255,139,0.3);
-      padding: 0.3em 0.8em;
+      padding: 0.3em 0.9em;
       border-radius: 2px;
     }
-
+    .hero h1 {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: clamp(2.4rem, 6vw, 4rem);
+      line-height: 1.08;
+      letter-spacing: -0.025em;
+      color: #ffffff;
+      margin-bottom: 1.25rem;
+    }
+    .hero h1 .accent-word { color: var(--color-accent); }
+    .hero-sub {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      line-height: 1.6;
+      color: var(--color-text-muted-light);
+      max-width: 620px;
+      margin: 0 auto 2.25rem;
+    }
     .btn-primary {
+      display: inline-block;
+      background: var(--color-accent);
+      color: var(--color-accent-text);
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.05rem;
+      letter-spacing: 0.04em;
+      padding: 1rem 2.25rem;
+      border-radius: 4px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+      text-align: center;
+    }
+    .btn-primary:hover { background: var(--color-accent-dk); transform: translateY(-2px); }
+    .btn-primary .btn-sub {
+      display: block;
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      opacity: 0.7;
+      margin-top: 0.3em;
+      font-weight: 500;
+    }
+    .hero-trust {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem 2rem;
+      margin-top: 2rem;
+    }
+    .hero-trust-item {
+      font-family: var(--font-display);
+      font-size: 0.78rem;
+      color: var(--color-text-muted-light);
+      letter-spacing: 0.04em;
+    }
+    .hero-trust-item strong { color: var(--color-accent); }
+
+    /* Scarcity note */
+    .hero-scarcity {
+      margin-top: 1.5rem;
+      font-family: var(--font-body);
+      font-size: 0.78rem;
+      color: rgba(155,255,139,0.6);
+      letter-spacing: 0.03em;
+    }
+
+    /* Fade-up animation */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up-1 { animation: fadeUp 0.6s ease both 0.1s; }
+    .fade-up-2 { animation: fadeUp 0.6s ease both 0.25s; }
+    .fade-up-3 { animation: fadeUp 0.6s ease both 0.4s; }
+    .fade-up-4 { animation: fadeUp 0.6s ease both 0.55s; }
+    .fade-up-5 { animation: fadeUp 0.6s ease both 0.7s; }
+
+    /* ── PROOF BAR ── */
+    .proof-bar {
+      background: var(--color-bg-light);
+      padding: 2.5rem 1.5rem;
+    }
+    .proof-bar-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem 3rem;
+    }
+    .proof-stat {
+      text-align: center;
+    }
+    .proof-stat-number {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--color-text-dark);
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+    .proof-stat-number .accent { color: var(--color-accent-dk); }
+    .proof-stat-label {
+      font-family: var(--font-body);
+      font-size: 0.78rem;
+      color: var(--color-text-muted-dark);
+      margin-top: 0.3rem;
+      letter-spacing: 0.03em;
+    }
+    .proof-divider {
+      width: 1px;
+      height: 40px;
+      background: #d1d5db;
+    }
+    .proof-quote-wrap {
+      max-width: 600px;
+      margin: 2rem auto 0;
+      text-align: center;
+    }
+    .proof-quote {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--color-text-dark);
+      line-height: 1.65;
+    }
+    .proof-quote-cite {
+      font-family: var(--font-body);
+      font-size: 0.78rem;
+      color: var(--color-text-muted-dark);
+      margin-top: 0.5rem;
+    }
+
+    /* ── DR LETTER ── */
+    .dr-section {
+      background: var(--color-bg-white);
+      padding: 5rem 0;
+    }
+    .dr-column {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+    .dr-rule {
+      width: 48px;
+      height: 3px;
+      background: var(--color-accent-dk);
+      margin-bottom: 1.75rem;
+    }
+    .dr-salutation {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      color: var(--color-text-muted-dark);
+      margin-bottom: 1.5rem;
+      font-style: italic;
+    }
+    .dr-p {
+      font-family: var(--font-body);
+      font-size: 1.0625rem;
+      line-height: 1.75;
+      color: var(--color-text-dark);
+      margin-bottom: 1.1rem;
+    }
+    .dr-bold { font-weight: 600; color: var(--color-text-dark); }
+    .dr-highlight {
+      background: #ffe033;
+      padding: 0.05em 0.2em;
+      border-radius: 2px;
+      font-weight: 500;
+    }
+    .dr-underline {
+      text-decoration: underline;
+      text-decoration-color: var(--color-accent-dk);
+      text-decoration-thickness: 2px;
+      text-underline-offset: 3px;
+    }
+    .dr-divider {
+      border: none;
+      border-top: 1px solid #e5e7eb;
+      margin: 2.5rem 0;
+    }
+    .dr-pull-quote {
+      max-width: 860px;
+      margin: 3rem auto;
+      padding: 0 1.5rem;
+      text-align: center;
+    }
+    .dr-pull-quote-text {
+      font-family: var(--font-display);
+      font-size: clamp(2.4rem, 7vw, 5.5rem);
+      font-weight: 900;
+      line-height: 1;
+      color: var(--color-text-dark);
+      letter-spacing: -0.02em;
+    }
+    .dr-serif-quote {
+      border-left: 3px solid var(--color-accent-dk);
+      padding: 0.75rem 0 0.75rem 1.5rem;
+      margin: 2rem 0;
+    }
+    .dr-serif-quote p {
+      font-family: var(--font-serif);
+      font-size: 1.2rem;
+      font-style: italic;
+      line-height: 1.65;
+      color: var(--color-text-dark);
+    }
+    .dr-serif-quote cite {
+      display: block;
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      color: var(--color-text-muted-dark);
+      margin-top: 0.5rem;
+      font-style: normal;
+    }
+    .dr-label {
+      display: inline-block;
+      font-family: var(--font-display);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-accent-dk);
+      margin-bottom: 1rem;
+    }
+    .dr-statement {
+      font-family: var(--font-body);
+      font-size: 1.2rem;
+      font-weight: 700;
+      line-height: 1.5;
+      color: var(--color-text-dark);
+      margin-bottom: 1.1rem;
+    }
+    .dr-signoff { margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid #e5e7eb; }
+    .dr-signoff p {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      line-height: 1.7;
+      color: var(--color-text-muted-dark);
+      margin-bottom: 0.5rem;
+    }
+    .dr-signoff-name {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      color: var(--color-text-dark);
+      margin: 0.5rem 0;
+    }
+    .dr-signoff-role {
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      color: var(--color-text-muted-dark);
+    }
+    .dr-signature-placeholder {
+      width: 140px; height: 48px;
+      background: #f3f4f6;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      color: #9ca3af;
+      margin: 0.75rem 0;
+    }
+    .dr-ps {
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      line-height: 1.65;
+      color: var(--color-text-muted-dark);
+      margin-top: 1.5rem;
+    }
+    .dr-ps strong { color: var(--color-text-dark); font-weight: 600; }
+    .dr-ps a { color: var(--color-accent-dk); font-weight: 600; text-decoration: underline; }
+
+    /* ── WHAT YOU GET ── */
+    .features-section {
+      background: var(--color-bg-dark);
+      padding: 5rem 1.5rem;
+    }
+    .section-label {
+      display: inline-block;
+      font-family: var(--font-display);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+      margin-bottom: 0.75rem;
+    }
+    .section-heading {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      color: #ffffff;
+      margin-bottom: 0.5rem;
+    }
+    .ribbon {
+      display: inline-block;
+      background: var(--color-accent);
+      color: var(--color-accent-text);
+      padding: 0.1em 0.5em;
+      font-family: var(--font-display);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      transform: skewX(-4deg);
+    }
+    .section-sub {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--color-text-muted-light);
+      margin-bottom: 3rem;
+    }
+    .features-grid {
+      max-width: 900px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    @media (min-width: 640px) {
+      .features-grid { grid-template-columns: 1fr 1fr; }
+    }
+    .feature-card {
+      background: var(--color-bg-mid);
+      border: 1px solid rgba(155,255,139,0.1);
+      border-radius: 10px;
+      padding: 1.5rem;
+    }
+    .feature-check {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      background: var(--color-primary);
-      color: #0a0a0a;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--color-accent);
+      color: var(--color-accent-text);
+      font-size: 0.7rem;
+      font-weight: 900;
+      flex-shrink: 0;
+      margin-bottom: 0.75rem;
+    }
+    .feature-title {
       font-family: var(--font-display);
+      font-size: 1rem;
       font-weight: 700;
-      letter-spacing: 0.02em;
-      padding: 1.1rem 2rem;
-      font-size: 1.1rem;
-      border-radius: 3px;
+      color: #ffffff;
+      margin-bottom: 0.4rem;
+      line-height: 1.3;
+    }
+    .feature-body {
+      font-family: var(--font-body);
+      font-size: 0.875rem;
+      line-height: 1.6;
+      color: rgba(240,240,240,0.65);
+    }
+
+    /* ── CASE STUDY STRIP ── */
+    .case-study-strip {
+      background: var(--color-accent);
+      padding: 3.5rem 1.5rem;
       text-align: center;
-      transition: all 0.2s;
-      text-decoration: none;
     }
-    .btn-primary:hover { background: var(--color-primary-dk); transform: translateY(-1px); box-shadow: 0 8px 30px rgba(155,255,139,0.25); }
+    .case-eyebrow {
+      font-family: var(--font-display);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--color-accent-text);
+      opacity: 0.6;
+      margin-bottom: 0.5rem;
+    }
+    .case-number {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: clamp(3.5rem, 10vw, 7rem);
+      letter-spacing: -0.03em;
+      line-height: 1;
+      color: var(--color-accent-text);
+    }
+    .case-descriptor {
+      font-family: var(--font-body);
+      font-size: 1.05rem;
+      color: var(--color-accent-text);
+      margin-top: 0.5rem;
+      line-height: 1.5;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .case-descriptor strong { font-weight: 700; }
 
-    .check-row { display:flex; align-items:flex-start; gap:0.9rem; margin-bottom:1rem; }
-    .check-icon {
-      width:1.3rem; height:1.3rem; min-width:1.3rem;
-      border:1.5px solid var(--color-primary);
-      border-radius:50%;
-      display:flex; align-items:center; justify-content:center;
-      color: var(--color-primary);
-      font-size:0.65rem;
-      margin-top:0.15rem;
+    /* ── TESTIMONIALS ── */
+    .testimonials-dark { background: var(--color-bg-dark); padding: 5rem 0; overflow: hidden; }
+    .testimonials-dark .t-heading { color: #ffffff; }
+    .t-heading {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 900;
+      text-align: center;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+    .t-subheading {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 1.05rem;
+      text-align: center;
+      margin-bottom: 3rem;
+      color: var(--color-text-muted-light);
+    }
+    .carousel-wrapper {
+      overflow: hidden;
+      width: 100%;
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+      mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+    }
+    .carousel-track {
+      display: flex;
+      gap: 1rem;
+      width: max-content;
+      will-change: transform;
+    }
+    @keyframes scrollLeft {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    @keyframes scrollRight {
+      0%   { transform: translateX(-50%); }
+      100% { transform: translateX(0); }
+    }
+    .carousel-track.row-left  { animation: scrollLeft 35s linear infinite; }
+    .carousel-track.row-right { animation: scrollRight 35s linear infinite; }
+    .carousel-wrapper:hover .carousel-track { animation-play-state: paused; }
+    .carousel-row { margin-bottom: 1rem; }
+    .carousel-row:last-child { margin-bottom: 0; }
+    .t-card {
+      width: 320px;
+      flex-shrink: 0;
+      border-radius: 10px;
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      transition: transform 0.2s ease;
+      background: var(--color-bg-mid);
+      border: 1px solid rgba(155,255,139,0.08);
+    }
+    .t-card:hover { transform: translateY(-3px); }
+    .t-card-header { display: flex; align-items: center; gap: 0.6rem; }
+    .t-avatar-placeholder {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display);
+      font-size: 0.9rem; font-weight: 700;
+      flex-shrink: 0;
+      color: var(--color-accent-text);
+      background: var(--color-accent);
+    }
+    .t-reviewer-name {
+      font-family: var(--font-display);
+      font-size: 0.95rem; font-weight: 600;
+      line-height: 1.2; color: #ffffff;
+    }
+    .t-verified {
+      display: flex; align-items: center; gap: 0.3rem;
+      font-size: 0.7rem; font-family: var(--font-body);
+      color: var(--color-text-muted-light);
+    }
+    .t-verified-dot {
+      width: 14px; height: 14px;
+      border-radius: 50%; background: #22c55e;
+      display: inline-flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .t-verified-dot::after { content: '✓'; color: white; font-size: 8px; font-weight: 700; }
+    .t-stars { color: #f59e0b; font-size: 0.85rem; letter-spacing: 0.05em; }
+    .t-title {
+      font-family: var(--font-display);
+      font-size: 0.95rem; font-weight: 600;
+      line-height: 1.3; color: #ffffff;
+    }
+    .t-body {
+      font-family: var(--font-body);
+      font-size: 0.875rem; line-height: 1.55;
+      color: rgba(240,240,240,0.75);
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .t-date {
+      font-family: var(--font-body);
+      font-size: 0.72rem; margin-top: auto;
+      padding-top: 0.5rem;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      color: var(--color-text-muted-light);
     }
 
-    .value-row {
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      padding:0.85rem 0;
-      border-bottom: 1px solid var(--color-border);
+    /* ── IS THIS RIGHT FOR YOU ── */
+    .fit-section {
+      background: var(--color-bg-light);
+      padding: 5rem 1.5rem;
+    }
+    .fit-section .section-heading { color: var(--color-text-dark); }
+    .fit-section .section-sub { color: var(--color-text-muted-dark); }
+    .fit-list {
+      max-width: 680px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
       gap: 1rem;
     }
-    .value-row:last-child { border-bottom:none; }
-    .value-price { font-family:var(--font-display); font-size:1.1rem; color: var(--color-primary); white-space:nowrap; }
-    .value-price.strike { color: rgba(255,255,255,0.25); text-decoration:line-through; }
-
-    .guarantee-wrap {
-      border: 1px solid rgba(155,255,139,0.3);
-      border-radius: 6px;
-      padding: 2rem;
-      text-align: center;
-      position: relative;
-      background: rgba(155,255,139,0.03);
+    .fit-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 1.1rem 1.25rem;
     }
-    .guarantee-label {
-      position: absolute;
-      top: -0.8rem;
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--color-primary);
-      color: #0a0a0a;
-      font-family: var(--font-mono);
-      font-size: 0.65rem;
-      letter-spacing: 0.1em;
+    .fit-check {
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: var(--color-accent);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.7rem; font-weight: 900;
+      color: var(--color-accent-text);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .fit-text {
+      font-family: var(--font-body);
+      font-size: 0.975rem;
+      color: var(--color-text-dark);
+      line-height: 1.55;
+    }
+    .fit-text strong { font-weight: 600; }
+
+    /* ── PRICING ── */
+    .pricing-section {
+      background: var(--color-bg-dark);
+      padding: 5rem 1.5rem;
+    }
+    .pricing-card {
+      max-width: 680px;
+      margin: 0 auto;
+      background: var(--color-bg-mid);
+      border: 1px solid rgba(155,255,139,0.15);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .pricing-header {
+      background: rgba(155,255,139,0.06);
+      padding: 2rem 2rem 1.5rem;
+      border-bottom: 1px solid rgba(155,255,139,0.1);
+    }
+    .pricing-label {
+      font-family: var(--font-display);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-      padding: 0.25em 1em;
-      border-radius: 2px;
-      white-space: nowrap;
+      color: var(--color-accent);
+      margin-bottom: 0.5rem;
+    }
+    .pricing-name {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: #ffffff;
+      margin-bottom: 0.25rem;
+    }
+    .pricing-amount {
+      font-family: var(--font-display);
+      font-size: 3rem;
+      font-weight: 900;
+      color: var(--color-accent);
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+    .pricing-amount span {
+      font-size: 1rem;
       font-weight: 600;
+      color: var(--color-text-muted-light);
+      letter-spacing: 0;
+    }
+    .pricing-compare {
+      font-family: var(--font-body);
+      font-size: 0.82rem;
+      color: var(--color-text-muted-light);
+      margin-top: 0.4rem;
+    }
+    .pricing-body { padding: 1.75rem 2rem; }
+    .pricing-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 0.65rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      font-family: var(--font-body);
+      font-size: 0.88rem;
+    }
+    .pricing-line:last-child { border-bottom: none; }
+    .pricing-line-name { color: rgba(240,240,240,0.8); }
+    .pricing-line-value { color: var(--color-text-muted-light); font-size: 0.8rem; }
+    .pricing-total-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem 2rem;
+      background: rgba(155,255,139,0.04);
+      border-top: 1px solid rgba(155,255,139,0.15);
+    }
+    .pricing-total-label {
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--color-text-muted-light);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .pricing-total-value {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: #ffffff;
+      text-decoration: line-through;
+      opacity: 0.5;
     }
 
-    .prose-section { max-width: 680px; margin: 0 auto; }
-    .prose-section p { font-size: 0.97rem; line-height: 1.8; color: rgba(255,255,255,0.75); margin-bottom: 1.1rem; }
-    .prose-section p strong { color: #fff; }
+    /* ── GUARANTEE ── */
+    .guarantee-box {
+      max-width: 680px;
+      margin: 2.5rem auto 0;
+      border: 1px solid rgba(155,255,139,0.2);
+      border-radius: 10px;
+      padding: 1.75rem;
+      display: flex;
+      gap: 1.25rem;
+      align-items: flex-start;
+    }
+    .guarantee-icon { font-size: 2rem; flex-shrink: 0; line-height: 1; }
+    .guarantee-title {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--color-accent);
+      margin-bottom: 0.4rem;
+    }
+    .guarantee-body {
+      font-family: var(--font-body);
+      font-size: 0.875rem;
+      line-height: 1.65;
+      color: rgba(240,240,240,0.7);
+    }
 
-    @keyframes marquee { 0%{transform:translateX(0);} 100%{transform:translateX(-50%);} }
-    .marquee-track { display:flex; width:max-content; animation: marquee 22s linear infinite; }
-    .marquee-track-rev { animation-direction:reverse; }
+    /* ── CTA STRIP (Version B — External Form) ── */
+    .cta-strip {
+      background: var(--color-bg-dark);
+      padding: 5rem 1.5rem;
+      text-align: center;
+      border-top: 1px solid rgba(155,255,139,0.08);
+      border-bottom: 1px solid rgba(155,255,139,0.08);
+      position: relative;
+      overflow: hidden;
+    }
+    /* Subtle radial glow behind CTA */
+    .cta-strip::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(155,255,139,0.05) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .cta-strip-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    .cta-strip-eyebrow {
+      display: inline-block;
+      font-family: var(--font-display);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+      border: 1px solid rgba(155,255,139,0.25);
+      padding: 0.3em 0.9em;
+      border-radius: 2px;
+      margin-bottom: 1.5rem;
+    }
+    .cta-strip-heading {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      letter-spacing: -0.025em;
+      line-height: 1.1;
+      color: #ffffff;
+      margin-bottom: 1.25rem;
+    }
+    .cta-accent { color: var(--color-accent); }
+    .cta-strip-sub {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 1.1rem;
+      line-height: 1.65;
+      color: var(--color-text-muted-light);
+      max-width: 560px;
+      margin: 0 auto 2rem;
+    }
+    .cta-trust-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem 1rem;
+      margin-bottom: 2.25rem;
+    }
+    .cta-trust-item {
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      color: var(--color-text-muted-light);
+      letter-spacing: 0.03em;
+    }
+    .cta-trust-divider {
+      color: rgba(155,255,139,0.25);
+      font-size: 0.8rem;
+    }
+    .btn-cta-strip {
+      display: inline-block;
+      background: var(--color-accent);
+      color: var(--color-accent-text);
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.15rem;
+      letter-spacing: 0.04em;
+      padding: 1.1rem 2.75rem;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      text-align: center;
+      box-shadow: 0 0 0 0 rgba(155,255,139,0.4);
+      width: 100%;
+      max-width: 480px;
+    }
+    .btn-cta-strip:hover {
+      background: var(--color-accent-dk);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(155,255,139,0.2);
+    }
+    .btn-cta-sub {
+      display: block;
+      font-family: var(--font-body);
+      font-size: 0.78rem;
+      opacity: 0.65;
+      margin-top: 0.35em;
+      font-weight: 500;
+      letter-spacing: 0;
+    }
+    .cta-guarantee-line {
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      line-height: 1.65;
+      color: rgba(160,160,160,0.7);
+      max-width: 500px;
+      margin: 1.75rem auto 0;
+    }
 
-    details summary { cursor:pointer; list-style:none; }
-    details summary::-webkit-details-marker { display:none; }
-    details[open] summary .arrow { transform:rotate(180deg); }
-    .arrow { transition:transform 0.2s; display:inline-block; }
+    /* ── FAQ ── */
+    .faq-section {
+      background: var(--color-bg-white);
+      padding: 5rem 1.5rem;
+    }
+    .faq-list {
+      max-width: 680px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    details.faq-item {
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    details.faq-item summary {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.1rem 1.25rem;
+      cursor: pointer;
+      font-family: var(--font-display);
+      font-size: 0.975rem;
+      font-weight: 600;
+      color: var(--color-text-dark);
+      list-style: none;
+      user-select: none;
+      gap: 1rem;
+    }
+    details.faq-item summary::-webkit-details-marker { display: none; }
+    .faq-arrow {
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      background: var(--color-bg-light);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.7rem;
+      flex-shrink: 0;
+      transition: transform 0.2s, background 0.2s;
+      color: var(--color-text-dark);
+    }
+    details[open] .faq-arrow {
+      transform: rotate(180deg);
+      background: var(--color-accent);
+      color: var(--color-accent-text);
+    }
+    .faq-body {
+      padding: 0 1.25rem 1.25rem;
+      font-family: var(--font-body);
+      font-size: 0.93rem;
+      line-height: 1.7;
+      color: var(--color-text-muted-dark);
+    }
 
-    .sticky-cta { position:fixed; bottom:0; left:0; right:0; z-index:50; padding:1rem; background: rgba(10,10,10,0.95); border-top:1px solid var(--color-border); backdrop-filter: blur(10px); }
-    @media(min-width:768px) { .sticky-cta { display:none; } }
+    /* ── FINAL CTA ── */
+    .final-cta {
+      background: var(--color-bg-dark);
+      padding: 5rem 1.5rem;
+      text-align: center;
+      border-top: 1px solid rgba(155,255,139,0.08);
+    }
+    .final-cta h2 {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      letter-spacing: -0.02em;
+      color: #ffffff;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .final-cta p {
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      color: var(--color-text-muted-light);
+      margin-top: 1.5rem;
+    }
 
-    @keyframes fadeUp { from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);} }
-    .fade-up { animation: fadeUp 0.5s ease both; }
+    /* ── FOOTER ── */
+    footer {
+      background: #000000;
+      padding: 1.75rem 1.5rem;
+      text-align: center;
+    }
+    footer p {
+      font-family: var(--font-body);
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.3);
+      line-height: 1.6;
+    }
+    footer a { color: rgba(255,255,255,0.4); text-decoration: underline; }
 
-    .section-dark { background: var(--color-dark); position:relative; z-index:1; }
-    .section-card { background: var(--color-dark-2); border-top: 1px solid var(--color-border); position:relative; z-index:1; }
-    .section-alt { background: var(--color-dark-3); border-top: 1px solid var(--color-border); position:relative; z-index:1; }
+    /* ── STICKY MOBILE CTA ── */
+    .sticky-cta {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      z-index: 50;
+      background: var(--color-bg-dark);
+      border-top: 1px solid rgba(155,255,139,0.12);
+      padding: 0.75rem 1rem;
+    }
+    @media (min-width: 768px) { .sticky-cta { display: none; } }
+    .sticky-cta a {
+      display: block;
+      background: var(--color-accent);
+      color: var(--color-accent-text);
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: 0.04em;
+      padding: 0.85rem 1.5rem;
+      border-radius: 4px;
+      text-align: center;
+      text-decoration: none;
+    }
+
+    /* ── UTILITIES ── */
+    .text-center { text-align: center; }
+    .mx-auto { margin-left: auto; margin-right: auto; }
   </style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav style="border-bottom: 1px solid var(--color-border); position: relative; z-index: 10;" class="px-6 py-5 flex justify-between items-center max-w-6xl mx-auto">
-  <img src="https://callconvert.co.uk/img/logo/callconvert-logo.svg" alt="Call Convert" class="h-8" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
-  <span style="display:none; font-family:var(--font-display); font-size:1.1rem; font-weight:700; color:#fff;">CALL CONVERT</span>
-  <a href="05-booking.html" class="tag" style="text-decoration:none; cursor:pointer; color: var(--color-primary);">Book a Call →</a>
-</nav>
+<!--
+  HERO MODE: image (default) | vsl
+  To switch to VSL:
+  1. Change <body> to <body class="vsl-mode">
+  2. Replace [ SWAP: paste video embed here ] with your
+     Wistia / Vimeo / YouTube embed code
+-->
 
-<!-- BLOCK 1: HERO -->
-<section class="section-dark px-6 py-20 md:py-28 text-center fade-up">
-  <div style="max-width: 820px; margin: 0 auto;">
-
-    <div class="tag" style="margin-bottom: 1.25rem;">For B2B Sales Leaders Across the UK</div>
-
-    <h1 style="font-size: clamp(2.6rem, 6vw, 5rem); color:#fff; margin-bottom: 1.5rem;">
-      Stop Guessing.<br/>
-      Start Building a<br/>
-      <span style="color: var(--color-primary);">Predictable Pipeline.</span>
-    </h1>
-
-    <p style="font-size: 1.1rem; color: var(--color-muted); max-width: 600px; margin: 0 auto 2.5rem; line-height: 1.7;">
-      The Call Convert Sales System finds, qualifies, and converts your ideal clients — across LinkedIn, email, and phone. Fully managed. Fully accountable. No headcount required.
-    </p>
-
-    <div style="display:flex; justify-content:center; margin-bottom: 2rem;">
-      <a href="05-booking.html" class="btn-primary">
-        Book My Free Discovery Call →
-      </a>
-    </div>
-
-    <p style="font-size:0.85rem; color: rgba(255,255,255,0.3);">
-      ⚡ We onboard a maximum of 3 new clients per month. If you're seeing this, there may be availability — the call confirms it.
-    </p>
-
-    <!-- Social proof row -->
-    <div style="margin-top:2.5rem; display:flex; flex-wrap:wrap; justify-content:center; gap:1.5rem 3rem; align-items:center; opacity:0.7;">
-      <div style="display:flex; align-items:center; gap:0.4rem; color:#facc15;">★★★★★ <span style="color: var(--color-muted); font-size:0.85rem; margin-left:0.2rem;">5-star rated · Google</span></div>
-      <span style="color: var(--color-muted); font-size:0.85rem;">🇬🇧 UK-based · 3 years operating</span>
-      <span style="color: var(--color-muted); font-size:0.85rem;">📈 £4.1M pipeline built for one client in 6 months</span>
-    </div>
-
-  </div>
-</section>
-
-<!-- BLOCK 2: TICKER -->
-<div style="border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border); overflow:hidden; position:relative; z-index:1; padding: 0.7rem 0; background: var(--color-dark-3);">
-  <div class="marquee-track" style="color: var(--color-muted); font-family:var(--font-mono); font-size:0.7rem; letter-spacing:0.08em; text-transform:uppercase;">
-    <span style="margin: 0 2.5rem;">ICP Build</span>
-    <span style="margin: 0 1rem; color:rgba(255,255,255,0.15);">·</span>
-    <span style="margin: 0 2.5rem;">Validated Prospect Data</span>
-    <span style="margin: 0 1rem; color:rgba(255,255,255,0.15);">·</span>
-    <span style="margin: 0 2.5rem;">LinkedIn Outreach</span>
-    <span style="margin: 0 1rem; color:rgba(255,255,255,0.15);">·</span>
-    <span style="margin: 0 2.5rem;">Cold Email Campaigns</span>
-    <span style="margin: 0 1rem; color:rgba(255,255,255,0.15);">·</span>
-    <span style="margin: 0 2.5rem;">Outbound Calling</span>
-    <span style="margin: 0 1rem; color:rgba(255,255,255,0.15);">·</span>
-    <span style="margin: 0 2.5rem;">Live Buyer Signals</span>
-    <span style="margin: 0 1rem; color:rgba(255,255,255,0.15);">·</span>
-    <span style="margin: 0 2.5rem;">Lead Scoring</span>
-    <span style="margin: 0 1rem; color:rgba(255,255,255,0.15);">·</span>
-    <span style="margin: 0 2.5rem;">Weekly Reporting</span>
-    <span style="margin: 0 1rem; color:rgba(255,255,255,0.15);">·</span>
+<!-- ── TICKER ── -->
+<div class="ticker-wrap" role="marquee" aria-label="Key facts about Call Convert">
+  <div class="ticker-track" id="ticker-track">
+    <span>⚡ We onboard a maximum of 3 new clients per month</span>
+    <span>★★★★★ 5-star rated on Google</span>
+    <span>📈 £4.1M pipeline built for one client in 6 months</span>
+    <span>🇬🇧 UK-based outbound sales agency</span>
+    <span>📞 Calls and conversations at the heart of everything we do</span>
+    <span>✅ No stone left unturned — every prospect fully worked</span>
   </div>
 </div>
 
-<!-- BLOCK 3: SALES LETTER INTRO -->
-<section class="section-card px-6 py-20">
-  <div class="prose-section">
+<!-- ── NAV ── -->
+<nav class="nav">
+  
+  <a href="#"><img src="https://callconvert.co.uk/img/logo/callconvert-logo.svg" alt="Call Convert" style="height:36px;"></a>
+  <a href="#main-form" class="nav-cta">Book a Discovery Call →</a>
+</nav>
 
-    <h2 style="font-size: clamp(2rem, 4vw, 3.2rem); color:#fff; margin-bottom: 2rem; text-align:center;">
-      If Your Business Runs On<br/>
-      <span style="color: var(--color-primary);">Referrals and Hope,<br/>Read This.</span>
-    </h2>
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-bg-image"></div>
+  <div class="hero-overlay"></div>
 
-    <p style="font-family: var(--font-mono); font-size:0.75rem; letter-spacing:0.05em; color: var(--color-muted); margin-bottom:2rem;">From the team at Call Convert · UK · April 2025</p>
-
-    <p>If you're a Sales Director, Founder, or BDM and your pipeline looks different every month — sometimes full, sometimes terrifyingly quiet — this page is written for you.</p>
-
-    <p>Because the problem isn't your product. It isn't your team. And it isn't that B2B sales is just "hard right now."</p>
-
-    <p><strong>The problem is that you don't have a system. You have activity.</strong></p>
-
-    <p>And activity — manual LinkedIn searches, generic email blasts, CRM chasing — is exhausting, inconsistent, and produces results that look nothing like what the business needs.</p>
-
-    <p>We've seen this with every client we've ever onboarded. They come to us after trying it themselves, after trying another agency, after hiring an SDR who left six months later with nothing concrete to show. Each time, the same story: lots of effort, not enough pipeline.</p>
-
-    <p><strong>Call Convert was built to solve exactly this.</strong> We find your ideal clients. We build a validated, enriched prospect list. We monitor live buying signals. We contact them via LinkedIn, email, and phone — every prospect, fully worked, until we know definitively whether they're buying or not. Then we hand your team qualified, engaged meetings.</p>
-
-    <p>Nothing is left unworked. No stone is left unturned. That's not marketing language — it's a contractual commitment.</p>
-
-    <div style="margin:2.5rem 0; display:flex; justify-content:center;">
-      <a href="05-booking.html" class="btn-primary">
-        Book My Free Discovery Call →
-      </a>
+  <!-- VSL video container — hidden by default -->
+  <div class="hero-video-wrap">
+    <div class="hero-video-placeholder">
+      <div class="play-icon">▶</div>
+      <p>[ SWAP: paste video embed here ]</p>
     </div>
-
   </div>
-</section>
 
-<!-- BLOCK 4: WHAT'S INCLUDED -->
-<section class="section-alt px-6 py-20">
-  <div style="max-width:680px; margin: 0 auto;">
-
-    <div style="text-align:center; margin-bottom:2.5rem;">
-      <h2 style="font-size: clamp(2rem, 4vw, 3.2rem); color:#fff; margin-bottom:0.75rem;">
-        Everything Inside<br/>
-        <span style="color: var(--color-primary);">The Sales System</span>
-      </h2>
-      <p style="font-size:0.9rem; color: var(--color-muted);">No guesswork. No filler. A complete system with no gaps.</p>
-    </div>
-
-    <div class="check-row">
-      <div class="check-icon">✓</div>
-      <p style="font-size:0.9rem; color: var(--color-text); line-height:1.6;"><strong style="color:#fff;">ICP Build & Sales Territory Mapping.</strong> We build your ideal client profile from scratch — firmographic, behavioural, and role-level precision. Not a category — a specific, actionable profile.</p>
-    </div>
-    <div class="check-row">
-      <div class="check-icon">✓</div>
-      <p style="font-size:0.9rem; color: var(--color-text); line-height:1.6;"><strong style="color:#fff;">Fully enriched & validated live prospect data.</strong> Right person, right role, right direct contact details — verified before anyone makes contact. No outdated lists, no bounced emails.</p>
-    </div>
-    <div class="check-row">
-      <div class="check-icon">✓</div>
-      <p style="font-size:0.9rem; color: var(--color-text); line-height:1.6;"><strong style="color:#fff;">Live buyer signal monitoring.</strong> We watch for signals that tell us when a prospect is actively in a buying cycle — so we reach out at the moment they're most likely to engage.</p>
-    </div>
-    <div class="check-row">
-      <div class="check-icon">✓</div>
-      <p style="font-size:0.9rem; color: var(--color-text); line-height:1.6;"><strong style="color:#fff;">LinkedIn & email outreach campaigns.</strong> Automated, personalised, sequenced messaging built around your prospect's actual situation — not a generic template.</p>
-    </div>
-    <div class="check-row">
-      <div class="check-icon">✓</div>
-      <p style="font-size:0.9rem; color: var(--color-text); line-height:1.6;"><strong style="color:#fff;">Outbound call activity.</strong> Our team calls every prospect at the right moment. Not cold — informed, timed, and built on the research and signals we've already gathered.</p>
-    </div>
-    <div class="check-row">
-      <div class="check-icon">✓</div>
-      <p style="font-size:0.9rem; color: var(--color-text); line-height:1.6;"><strong style="color:#fff;">Lead scoring.</strong> Every prospect is scored and prioritised. Your team always knows who to focus on and why.</p>
-    </div>
-    <div class="check-row">
-      <div class="check-icon">✓</div>
-      <p style="font-size:0.9rem; color: var(--color-text); line-height:1.6;"><strong style="color:#fff;">Weekly reporting & strategy meetings.</strong> 16 weekly sessions over the 4-month trial. You always know what's in the pipeline, what's progressing, and what we're optimising.</p>
-    </div>
-    <div class="check-row">
-      <div class="check-icon">✓</div>
-      <p style="font-size:0.9rem; color: var(--color-text); line-height:1.6;"><strong style="color:#fff;">AI ICP Optimisation — monthly.</strong> We use AI to refine and improve your prospect profile every month based on response data and conversion signals.</p>
-    </div>
-    <div class="check-row">
-      <div class="check-icon">✓</div>
-      <p style="font-size:0.9rem; color: var(--color-text); line-height:1.6;"><strong style="color:#fff;">Ongoing nurture of every prospect.</strong> Every single person who enters the system gets worked — not dropped after the first no. We nurture until we know definitively where they stand.</p>
-    </div>
-
-    <div style="margin-top:2.5rem; text-align:center;">
-      <a href="05-booking.html" class="btn-primary">
-        Book My Free Discovery Call →
-      </a>
-    </div>
-
-  </div>
-</section>
-
-<!-- BLOCK 5: TESTIMONIALS -->
-<section class="section-card px-6 py-20">
-  <div style="max-width: 820px; margin: 0 auto;">
-
-    <h2 style="font-size: clamp(2rem, 4vw, 3rem); color:#fff; text-align:center; margin-bottom:2.5rem;">
-      What Clients<br/>
-      <span style="color: var(--color-primary);">Actually Say</span>
-    </h2>
-
-    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:1.25rem; margin-bottom:2.5rem;">
-
-      <div style="background: var(--color-dark-3); border: 1px solid var(--color-border); border-radius:6px; padding:1.5rem;">
-        <div style="color:#facc15; font-size:0.9rem; margin-bottom:0.75rem;">★★★★★</div>
-        <!-- SWAP: photo -->
-        <p style="font-size:0.875rem; color: var(--color-text); line-height:1.7; margin-bottom:1rem; font-style:italic;">"We have used Call Convert for lead generation for over 12 months. They have delivered quality leads throughout that time. Our contact rate is great and we have converted many of them into long lasting clients. Their overall communication and ongoing optimisation based on our feedback means our outbound lead generation strategy is getting better and better over time."</p>
-        <p style="font-size:0.75rem; color: var(--color-muted); font-weight:600;">— Peter Hobson</p>
-      </div>
-
-      <div style="background: var(--color-dark-3); border: 1px solid var(--color-border); border-radius:6px; padding:1.5rem;">
-        <div style="color:#facc15; font-size:0.9rem; margin-bottom:0.75rem;">★★★★★</div>
-        <p style="font-size:0.875rem; color: var(--color-text); line-height:1.7; margin-bottom:1rem; font-style:italic;">"Great company. Good communication, reactivity and quality. Shout out to Andy and Craig who are quick to respond and are always checking in."</p>
-        <p style="font-size:0.75rem; color: var(--color-muted); font-weight:600;">— Oliver Tucker</p>
-      </div>
-
-      <div style="background: var(--color-dark-3); border: 1px solid var(--color-border); border-radius:6px; padding:1.5rem;">
-        <div style="color:#facc15; font-size:0.9rem; margin-bottom:0.75rem;">★★★★★</div>
-        <p style="font-size:0.875rem; color: var(--color-text); line-height:1.7; margin-bottom:1rem; font-style:italic;">"A breath of fresh air in a highly competitive market. Irrespective of the market they are working in, their dedication to delivering quality leads is paramount. Their wide reach and impressive network ensures they often bring out of the box solutions to the table."</p>
-        <p style="font-size:0.75rem; color: var(--color-muted); font-weight:600;">— Keiran Wyatt-Nicolle</p>
-      </div>
-
-      <!-- Case study highlight -->
-      <div style="background: rgba(155,255,139,0.06); border: 1px solid rgba(155,255,139,0.2); border-radius:6px; padding:1.5rem;">
-        <div style="font-family: var(--font-mono); font-size:0.65rem; letter-spacing:0.1em; text-transform:uppercase; color: var(--color-primary); margin-bottom:0.75rem;">Case Study · Plug Me In</div>
-        <div style="font-family: var(--font-display); font-size:2.2rem; color: var(--color-primary); margin-bottom:0.3rem;">£4.1M</div>
-        <p style="font-size:0.875rem; color: var(--color-text); line-height:1.7;">Pipeline built from zero in 6 months. B2B commercial solar provider. ICP built from scratch, outreach across LinkedIn, email, and phone.</p>
-        <p style="font-size:0.75rem; color: var(--color-muted); margin-top:0.75rem;">Starting pipeline: £0 → 6 months later: £4.1M</p>
-      </div>
-
-    </div>
-
-    <div style="text-align:center;">
-      <a href="05-booking.html" class="btn-primary">
-        Book My Free Discovery Call →
-      </a>
-    </div>
-
-  </div>
-</section>
-
-<!-- BLOCK 6: WHO THIS IS FOR -->
-<section class="section-alt px-6 py-20">
-  <div style="max-width:680px; margin:0 auto;">
-
-    <h2 style="font-size: clamp(2rem, 4vw, 3.2rem); color:#fff; text-align:center; margin-bottom:2.5rem;">
-      Is This<br/>
-      <span style="color: var(--color-primary);">Right For You?</span>
-    </h2>
-
-    <div class="check-row">
-      <div class="check-icon">✓</div>
-      <p style="font-size:0.9rem; color: var(--color-text); line-height:1.6;">You're a <strong style="color:#fff;">Sales Director, BDM, or Founder</strong> and your pipeline is inconsistent — good some months, worrying others.</p>
-    </div>
-    <div class="check-row">
-      <div class="check-icon">✓</div>
-      <p style="font-size:0.9rem; color: var(--color-text); line-height:1.6;">You rely too heavily on <strong style="color:#fff;">referrals and introductions</strong> — you know it, and you know it's not scalable.</p>
-    </div>
-    <div class="check-row">
-      <div class="check-icon">✓</div>
-      <p style="font-size:0.9rem; color: var(--color-text); line-height:1.6;">You've <strong style="color:#fff;">tried agencies before</strong> and been burned — templated emails, poor-quality data, zero accountability.</p>
-    </div>
-    <div class="check-row">
-      <div class="check-icon">✓</div>
-      <p style="font-size:0.9rem; color: var(--color-text); line-height:1.6;">You want your team <strong style="color:#fff;">closing deals</strong> — not spending 3 hours a day prospecting on LinkedIn.</p>
-    </div>
-    <div class="check-row">
-      <div class="check-icon">✓</div>
-      <p style="font-size:0.9rem; color: var(--color-text); line-height:1.6;">You sell a <strong style="color:#fff;">B2B product or service</strong> to other businesses and you need qualified, engaged meetings — not lists of names.</p>
-    </div>
-    <div class="check-row">
-      <div class="check-icon">✓</div>
-      <p style="font-size:0.9rem; color: var(--color-text); line-height:1.6;">You're serious about growth and you're ready to <strong style="color:#fff;">back it properly</strong> — not dip a toe in and see what happens.</p>
-    </div>
-
-    <p style="font-size:0.95rem; color: var(--color-muted); line-height:1.7; margin-top:1.5rem; margin-bottom:2rem;">If those points land — the Call Convert Sales System was built for you.</p>
-
-    <div style="text-align:center;">
-      <a href="05-booking.html" class="btn-primary">
-        Book My Free Discovery Call →
-      </a>
-    </div>
-
-  </div>
-</section>
-
-<!-- BLOCK 7: VALUE STACK -->
-<section class="section-card px-6 py-20">
-  <div style="max-width:680px; margin:0 auto;">
-
-    <div style="text-align:center; margin-bottom:2.5rem;">
-      <h2 style="font-size: clamp(2rem, 4vw, 3.2rem); color:#fff; margin-bottom:0.75rem;">
-        What You're<br/>
-        <span style="color: var(--color-primary);">Actually Getting</span>
-      </h2>
-      <p style="font-size:0.9rem; color: var(--color-muted);">The honest breakdown of what the 4-month trial is worth — and what you pay.</p>
-    </div>
-
-    <div style="background: var(--color-dark-3); border: 1px solid var(--color-border); border-radius:6px; padding: 1.75rem; margin-bottom:2rem;">
-
-      <div class="value-row">
-        <span style="font-size:0.875rem; color: var(--color-muted);">ICP Build & Sales Territory Mapping</span>
-        <span class="value-price strike">£1,500</span>
-      </div>
-      <div class="value-row">
-        <span style="font-size:0.875rem; color: var(--color-muted);">Fully enriched & validated live prospect data</span>
-        <span class="value-price strike">£2,000</span>
-      </div>
-      <div class="value-row">
-        <span style="font-size:0.875rem; color: var(--color-muted);">LinkedIn outreach campaign (4 months)</span>
-        <span class="value-price strike">£3,600</span>
-      </div>
-      <div class="value-row">
-        <span style="font-size:0.875rem; color: var(--color-muted);">Cold email campaign with deliverability setup</span>
-        <span class="value-price strike">£2,400</span>
-      </div>
-      <div class="value-row">
-        <span style="font-size:0.875rem; color: var(--color-muted);">Outbound call activity & SDR coverage (4 months)</span>
-        <span class="value-price strike">£6,400</span>
-      </div>
-      <div class="value-row">
-        <span style="font-size:0.875rem; color: var(--color-muted);">Live buyer signal monitoring</span>
-        <span class="value-price strike">£1,200</span>
-      </div>
-      <div class="value-row">
-        <span style="font-size:0.875rem; color: var(--color-muted);">16 weekly reporting & strategy sessions</span>
-        <span class="value-price strike">£3,200</span>
-      </div>
-      <div class="value-row">
-        <span style="font-size:0.875rem; color: var(--color-muted);">AI ICP Optimisation × 4 months</span>
-        <span class="value-price strike">£2,000</span>
-      </div>
-      <div class="value-row">
-        <span style="font-size:0.875rem; color: var(--color-muted);">Ongoing nurture of all prospects in the system</span>
-        <span class="value-price strike">£1,800</span>
-      </div>
-
-      <!-- Bonuses -->
-      <div style="border-top: 1px solid rgba(155,255,139,0.2); margin-top:1rem; padding-top:1rem;">
-        <div style="font-family: var(--font-mono); font-size:0.65rem; letter-spacing:0.1em; color: var(--color-primary); margin-bottom:0.75rem; text-transform:uppercase;">Bonuses Included</div>
-        <div class="value-row">
-          <span style="font-size:0.875rem; color: var(--color-muted);">BONUS: Pipeline Kickstart Call (Week 1 strategy deep-dive)</span>
-          <span class="value-price strike">£500</span>
-        </div>
-        <div class="value-row">
-          <span style="font-size:0.875rem; color: var(--color-muted);">BONUS: Competitor Intel Report — who your ICP is already talking to</span>
-          <span class="value-price strike">£300</span>
-        </div>
-        <div class="value-row">
-          <span style="font-size:0.875rem; color: var(--color-muted);">BONUS: Rate lock — keep trial pricing for full 12-month contract</span>
-          <span class="value-price">Priceless</span>
-        </div>
-      </div>
-
-      <div style="border-top: 1px solid var(--color-border); margin-top:1.25rem; padding-top:1.25rem;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
-          <span style="font-size:0.875rem; color: var(--color-muted);">Total real-world value</span>
-          <span class="value-price strike" style="font-size:1rem;">£24,900+</span>
-        </div>
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-          <span style="font-family:var(--font-display); font-size:1rem; color:#fff; font-weight:700;">Your investment (4-month trial)</span>
-          <div style="text-align:right;">
-            <div style="font-family:var(--font-display); font-size:2.5rem; color: var(--color-primary);">£2,250<span style="font-size:1.2rem;">/mo</span></div>
-          </div>
-        </div>
-        <p style="font-size:0.75rem; color: var(--color-muted); text-align:right; margin-top:0.4rem;">vs. a mid-level SDR at £3,000–3,500/month salary alone</p>
-      </div>
-
-    </div>
-
-    <div style="text-align:center;">
-      <a href="05-booking.html" class="btn-primary">
-        Book My Free Discovery Call →
-      </a>
-      <p style="font-size:0.8rem; color: rgba(255,255,255,0.3); margin-top:0.75rem;">Price confirmed on the call · No hidden fees</p>
-    </div>
-
-  </div>
-</section>
-
-<!-- BLOCK 8: GUARANTEE -->
-<section class="section-alt px-6 py-20">
-  <div style="max-width:580px; margin:0 auto;">
-
-    <h2 style="font-size: clamp(2rem, 4vw, 3rem); color:#fff; text-align:center; margin-bottom:2.5rem;">
-      Our<br/>
-      <span style="color: var(--color-primary);">Guarantee</span>
-    </h2>
-
-    <div class="guarantee-wrap" style="margin-bottom:2rem;">
-      <div class="guarantee-label">100% Guarantee</div>
-      <div style="font-size:3rem; margin-bottom:1rem;">🛡️</div>
-      <h3 style="font-family:var(--font-display); font-size:1.6rem; color:#fff; margin-bottom:1rem;">The "No Stone Unturned" Guarantee</h3>
-      <p style="font-size:0.9rem; color: var(--color-muted); line-height:1.8;">Complete the 4-month trial. Work with our team. Give us honest feedback each week. If at the end of 4 months your pipeline hasn't grown — meaning no new qualified meetings have been booked and no new prospects have entered your sales system — we'll refund your final month in full. No negotiation. No argument. No small print. We've never had to pay it out. That's how confident we are in what we do.</p>
-    </div>
-
-    <p style="font-size:0.875rem; color: var(--color-muted); text-align:center; line-height:1.7;">
-      We can offer this because we've seen the system work for businesses that were convinced they'd "already tried everything." Every prospect in the system gets worked. No exceptions.
+  <div class="hero-content">
+    <div class="hero-eyebrow fade-up-1">For B2B Sales Directors, Founders &amp; BDMs · UK</div>
+    <h1 class="fade-up-2">
+      Your Next 10 Clients<br/>
+      Are Out There.<br/>
+      <span class="accent-word">We'll Find, Warm &amp; Book Them.</span>
+    </h1>
+    <p class="hero-sub fade-up-3">
+      The Call Convert Sales System builds a predictable B2B pipeline for UK businesses with high-ticket offers — using LinkedIn, email, and phone. Fully managed. No headcount required.
     </p>
-
-  </div>
-</section>
-
-<!-- BLOCK 9: FAQ -->
-<section class="section-card px-6 py-20">
-  <div style="max-width:680px; margin:0 auto;">
-
-    <h2 style="font-size: clamp(2rem, 4vw, 3rem); color:#fff; text-align:center; margin-bottom:2.5rem;">
-      Your Questions<br/>
-      <span style="color: var(--color-primary);">Answered</span>
-    </h2>
-
-    <div style="display:flex; flex-direction:column; gap:0.75rem;">
-
-      <details style="background: var(--color-dark-3); border: 1px solid var(--color-border); border-radius:6px; padding: 1.25rem 1.5rem;">
-        <summary style="display:flex; justify-content:space-between; align-items:center; font-weight:600; color:#fff; font-size:0.95rem; padding: 0.25rem 0; cursor:pointer;">
-          We've tried agencies before and it didn't work. How is this different?
-          <span class="arrow" style="color: var(--color-primary); margin-left:1rem; font-size:0.9rem;">▼</span>
-        </summary>
-        <p style="font-size:0.875rem; color: var(--color-muted); line-height:1.7; margin-top:1rem;">Most agencies send templated messages to generic lists. We don't. Every campaign starts with your specific ICP, built from scratch. The data is validated before anyone contacts them. Buying signals tell us when to reach out. That's a fundamentally different product — and the results are fundamentally different too.</p>
-      </details>
-
-      <details style="background: var(--color-dark-3); border: 1px solid var(--color-border); border-radius:6px; padding: 1.25rem 1.5rem;">
-        <summary style="display:flex; justify-content:space-between; align-items:center; font-weight:600; color:#fff; font-size:0.95rem; padding: 0.25rem 0; cursor:pointer;">
-          How many meetings can you guarantee?
-          <span class="arrow" style="color: var(--color-primary); margin-left:1rem; font-size:0.9rem;">▼</span>
-        </summary>
-        <p style="font-size:0.875rem; color: var(--color-muted); line-height:1.7; margin-top:1rem;">Nobody can guarantee a specific number without knowing your market, your offer, and your sales cycle. What we can guarantee is this: every prospect that enters the system gets worked fully — LinkedIn, email, and phone — until we know whether they're buying or not. Nothing is left unworked. You get a live pipeline view at all times. And if after 4 months your pipeline hasn't grown, your final month is refunded.</p>
-      </details>
-
-      <details style="background: var(--color-dark-3); border: 1px solid var(--color-border); border-radius:6px; padding: 1.25rem 1.5rem;">
-        <summary style="display:flex; justify-content:space-between; align-items:center; font-weight:600; color:#fff; font-size:0.95rem; padding: 0.25rem 0; cursor:pointer;">
-          How much management time does this take from us?
-          <span class="arrow" style="color: var(--color-primary); margin-left:1rem; font-size:0.9rem;">▼</span>
-        </summary>
-        <p style="font-size:0.875rem; color: var(--color-muted); line-height:1.7; margin-top:1rem;">Your involvement is a weekly 30-minute reporting meeting and attending the meetings we book. That's it. The system, the outreach, the nurturing — we run all of it. Your team's job is to close the meetings we deliver.</p>
-      </details>
-
-      <details style="background: var(--color-dark-3); border: 1px solid var(--color-border); border-radius:6px; padding: 1.25rem 1.5rem;">
-        <summary style="display:flex; justify-content:space-between; align-items:center; font-weight:600; color:#fff; font-size:0.95rem; padding: 0.25rem 0; cursor:pointer;">
-          What does £2,250/month actually compare to?
-          <span class="arrow" style="color: var(--color-primary); margin-left:1rem; font-size:0.9rem;">▼</span>
-        </summary>
-        <p style="font-size:0.875rem; color: var(--color-muted); line-height:1.7; margin-top:1rem;">A mid-level SDR in the UK costs £35,000–£45,000 per year in salary alone — that's £2,900–£3,750/month before National Insurance, before tools, before a 4–6 month ramp period before they're effective. And they leave. At £2,250/month, you get a full team, a proven system, live data, and a guarantee. The risk calculation isn't close.</p>
-      </details>
-
-      <details style="background: var(--color-dark-3); border: 1px solid var(--color-border); border-radius:6px; padding: 1.25rem 1.5rem;">
-        <summary style="display:flex; justify-content:space-between; align-items:center; font-weight:600; color:#fff; font-size:0.95rem; padding: 0.25rem 0; cursor:pointer;">
-          What happens after the 4-month trial?
-          <span class="arrow" style="color: var(--color-primary); margin-left:1rem; font-size:0.9rem;">▼</span>
-        </summary>
-        <p style="font-size:0.875rem; color: var(--color-muted); line-height:1.7; margin-top:1rem;">If you want to continue — and the vast majority of clients do — you move into a 12-month contract at the same rate. Everything you've built in the trial (ICP, prospect data, campaign history) carries over and compounds. The system keeps building, the pipeline keeps growing.</p>
-      </details>
-
-      <details style="background: var(--color-dark-3); border: 1px solid var(--color-border); border-radius:6px; padding: 1.25rem 1.5rem;">
-        <summary style="display:flex; justify-content:space-between; align-items:center; font-weight:600; color:#fff; font-size:0.95rem; padding: 0.25rem 0; cursor:pointer;">
-          Do you work with any B2B business?
-          <span class="arrow" style="color: var(--color-primary); margin-left:1rem; font-size:0.9rem;">▼</span>
-        </summary>
-        <p style="font-size:0.875rem; color: var(--color-muted); line-height:1.7; margin-top:1rem;">We work with B2B businesses of 3+ people across the UK. We don't work with B2C businesses or 1–2 person operations — the system isn't designed for them and we won't take your money knowing that. The discovery call is where we confirm fit honestly.</p>
-      </details>
-
-    </div>
-
-  </div>
-</section>
-
-<!-- BLOCK 10: FINAL CTA -->
-<section class="section-alt px-6 py-24 text-center">
-  <div style="max-width:620px; margin:0 auto; position:relative; z-index:1;">
-
-    <h2 style="font-size: clamp(2.2rem, 5vw, 3.8rem); color:#fff; margin-bottom:1rem;">
-      Don't Let Another Quarter<br/>
-      <span style="color: var(--color-primary);">Pass Without A Pipeline.</span>
-    </h2>
-
-    <p style="font-size:1.05rem; color: var(--color-muted); line-height:1.7; margin-bottom:2.5rem; margin-top:1rem;">
-      Every month without a system is another month of inconsistency, of chasing the wrong leads, and of leaving revenue on the table that your competitors are picking up. Book a free 20-minute call. We'll tell you honestly if we can help.
-    </p>
-
-    <a href="05-booking.html" class="btn-primary" style="max-width:480px; display:inline-flex;">
+    <a href="#main-form" class="btn-primary fade-up-4">
       Book My Free Discovery Call →
+      <span class="btn-sub">20 minutes · No pitch · We'll tell you honestly if we can help</span>
+    </a>
+    <div class="hero-trust fade-up-5">
+      <span class="hero-trust-item"><strong>★★★★★</strong> 5-Star Google Rating</span>
+      <span class="hero-trust-item">🇬🇧 UK-Based Team</span>
+      <span class="hero-trust-item"><strong>£4.1M</strong> Pipeline in 6 Months</span>
+      <span class="hero-trust-item">✅ Money-Back Guarantee</span>
+    </div>
+    <p class="hero-scarcity fade-up-5">⚡ Maximum 3 new clients onboarded per month — the call confirms availability.</p>
+  </div>
+</section>
+
+<!-- ── PROOF BAR ── -->
+<section class="proof-bar">
+  <div class="proof-bar-inner">
+    <div class="proof-stat">
+      <div class="proof-stat-number"><span class="accent">£4.1M</span></div>
+      <div class="proof-stat-label">Pipeline built in 6 months<br/>for one client</div>
+    </div>
+    <div class="proof-divider"></div>
+    <div class="proof-stat">
+      <div class="proof-stat-number">3<span class="accent" style="font-size:1.2rem">×</span></div>
+      <div class="proof-stat-label">More conversations<br/>with the right data</div>
+    </div>
+    <div class="proof-divider"></div>
+    <div class="proof-stat">
+      <div class="proof-stat-number"><span class="accent">0</span></div>
+      <div class="proof-stat-label">Prospects left<br/>unworked in the system</div>
+    </div>
+    <div class="proof-divider"></div>
+    <div class="proof-stat">
+      <div class="proof-stat-number"><span class="accent">3</span></div>
+      <div class="proof-stat-label">New clients max<br/>per month</div>
+    </div>
+  </div>
+  <div class="proof-quote-wrap">
+    <p class="proof-quote">"We have used Call Convert for lead generation for over 12 months. They have delivered quality leads throughout that time — and our contact rate is great. We have converted many of them into long-lasting clients."</p>
+    <p class="proof-quote-cite">— Peter Hobson · Verified Client</p>
+  </div>
+</section>
+
+<!-- ── DIRECT RESPONSE LETTER ── -->
+<section class="dr-section">
+  <div class="dr-column">
+
+    <div class="dr-rule"></div>
+
+    <p class="dr-salutation">Dear Sales Director, Founder, or BDM,</p>
+
+    <span class="dr-label">The Problem</span>
+
+    <p class="dr-p">
+      If your pipeline looks different every single month — sometimes healthy, sometimes worryingly quiet — 
+      <span class="dr-bold">this letter is written for you.</span>
+    </p>
+
+    <p class="dr-p">
+      Not because there's something wrong with your business or your team.
+    </p>
+
+    <p class="dr-p">
+      But because the way most B2B businesses try to find new clients is 
+      <span class="dr-bold">almost designed to produce inconsistency.</span>
+    </p>
+
+    <p class="dr-p">
+      Your sales person comes in. Makes a brew. Sits down. 
+      Googles some companies that might be a good fit. Tries the landline. 
+      Hits a gatekeeper. Can't get through to the right person. 
+      The timing isn't right.
+    </p>
+
+    <p class="dr-p">
+      And then — <span class="dr-bold">they never contact that person again.</span>
+    </p>
+
+    <p class="dr-p">
+      Meanwhile, you've got a CRM full of data you're barely using. 
+      You've tried a couple of agencies that promised the world and sent 
+      you templated emails to generic lists. You're still waiting on referrals 
+      to keep the pipeline moving.
+    </p>
+
+    <p class="dr-p">
+      <span class="dr-highlight">
+        The problem was never your product. The problem was never your team. The problem is that you don't have a system — you have activity.
+      </span>
+    </p>
+
+  </div>
+
+  <div class="dr-pull-quote">
+    <p class="dr-pull-quote-text">
+      Every month without<br/>a system is a month<br/>
+      <span style="color: var(--color-accent-dk);">your competitors</span><br/>
+      are filling.
+    </p>
+  </div>
+
+  <div class="dr-column">
+
+    <p class="dr-p">
+      Not because they're better than you. Not because they've got a bigger team.
+    </p>
+
+    <p class="dr-p">
+      But because they've stopped relying on hope and started building 
+      <span class="dr-bold">a repeatable, predictable process</span> for finding and converting the right clients.
+    </p>
+
+    <p class="dr-p">
+      The good news is that process is exactly what we build.
+    </p>
+
+    <hr class="dr-divider"/>
+
+    <span class="dr-label">The Guide</span>
+
+    <p class="dr-p">
+      My name is Barry, and we built Call Convert after years of watching 
+      good B2B businesses — businesses with genuinely great products and services — 
+      struggle to find new clients because their outbound was broken.
+    </p>
+
+    <p class="dr-p">
+      Not because the people were bad. Because the approach was wrong. 
+      Bad data. Generic messaging. No follow-up. No system.
+    </p>
+
+    <div class="dr-serif-quote">
+      <p>"We didn't build Call Convert to be another agency that sends email blasts to a generic list and calls it outbound. We built it because we know what a properly built pipeline looks like — and we know most B2B businesses have never seen one."</p>
+      <cite>— Barry Holleran, Founder · Call Convert</cite>
+    </div>
+
+    <p class="dr-p">
+      We've worked with B2B businesses across the UK — niche sectors, high-ticket offers, 
+      small sales teams trying to do everything at once.
+    </p>
+
+    <p class="dr-p">
+      And we've seen the same pattern every single time: the businesses that grow 
+      consistently aren't the ones with the biggest teams. They're the ones with 
+      the best system.
+    </p>
+
+    <p class="dr-p">
+      <span class="dr-highlight">
+        It's not about working harder. It's about reaching the right people, at the right moment, with the right follow-through — every time.
+      </span>
+    </p>
+
+    <hr class="dr-divider"/>
+
+    <span class="dr-label">The Plan</span>
+
+    <p class="dr-p">
+      The Call Convert Sales System is built in three stages. 
+      No jargon. No overwhelm.
+    </p>
+
+    <p class="dr-statement">Here's exactly how it works:</p>
+
+    <p class="dr-p">
+      <span class="dr-bold">Step 1 — We build your ICP together.</span><br/>
+      We start with a dedicated ICP session. We define your ideal client with 
+      firmographic and behavioural precision — not a broad category, but a specific, 
+      actionable profile of the exact businesses you want to be speaking to. 
+      This session alone changes how most clients think about their market.
+    </p>
+
+    <p class="dr-p">
+      <span class="dr-bold">Step 2 — We find them, warm them, and make contact.</span><br/>
+      We source and enrich validated prospect data. We monitor live buying signals. 
+      We run LinkedIn, email, and phone outreach — every prospect fully worked, 
+      nothing left unturned — until we know whether they're buying or not.
+    </p>
+
+    <p class="dr-p">
+      <span class="dr-bold">Step 3 — We hand you qualified, engaged meetings.</span><br/>
+      Your team's only job is to show up and close. We handle everything that 
+      comes before that conversation.
+    </p>
+
+    <hr class="dr-divider"/>
+
+    <span class="dr-label">What's At Stake</span>
+
+    <p class="dr-p">
+      Here's the honest truth.
+    </p>
+
+    <p class="dr-p">
+      If you close this page and do nothing, 
+      <span class="dr-bold">nothing changes.</span>
+    </p>
+
+    <p class="dr-p">
+      Next quarter will look like this quarter. The referrals that come in will 
+      keep coming. The pipeline gaps will keep appearing. And every month, 
+      somewhere in your market, a competitor with a better system is speaking 
+      to the clients you should be speaking to.
+    </p>
+
+    <p class="dr-p">
+      Or — you book a call. It takes 20 minutes. We'll tell you honestly 
+      whether the system is right for your business. And if it is, 
+      within 4 months you'll have 
+      <span class="dr-underline">a pipeline that doesn't depend on referrals, luck, or heroic effort.</span>
+    </p>
+
+    <div style="text-align:center; margin: 2.5rem 0;">
+      <a href="#main-form" class="btn-primary">
+        Book My Free Discovery Call →
+        <span class="btn-sub">20 minutes · No commitment · No pressure</span>
+      </a>
+    </div>
+
+    <hr class="dr-divider"/>
+
+    <div class="dr-signoff">
+      <p>Yours in pipeline,</p>
+      <!-- SWAP: replace with <img src="signature.png" alt="Andy's signature" class="h-12 my-3"> -->
+      <div class="dr-signature-placeholder">[ SIGNATURE IMAGE ]</div>
+      <p class="dr-signoff-name">Barry Holleran</p>
+      <p class="dr-signoff-role">Founder · Call Convert · Manchester, UK</p>
+    </div>
+
+    <p class="dr-ps">
+      <strong>P.S.</strong> The 4-month trial is £2,250/month. 
+      That's less than a mid-level SDR costs in salary alone — 
+      before National Insurance, tools, or the 4–6 months it takes 
+      for them to become effective. And unlike an SDR, we come with 
+      a money-back guarantee. We limit intake to 3 new clients per month 
+      to protect delivery quality. 
+      <a href="#main-form">Book your discovery call here.</a>
+    </p>
+
+  </div>
+</section>
+
+<!-- ── WHAT YOU GET ── -->
+<section class="features-section" id="system">
+  <div class="text-center" style="margin-bottom:3rem;">
+    <span class="section-label">The Call Convert Sales System</span>
+    <h2 class="section-heading">Everything Inside<br/><span class="ribbon">The System</span></h2>
+    <p class="section-sub" style="margin-top:0.75rem;">No guesswork. No filler. No gaps.</p>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-check">✓</div>
+      <div class="feature-title">ICP Build &amp; Sales Territory Mapping</div>
+      <div class="feature-body">We build your ideal client profile from scratch — firmographic, behavioural, and role-level precision. Not a category. A specific, actionable profile of who you actually want to speak to.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-check">✓</div>
+      <div class="feature-title">Fully Enriched &amp; Validated Live Prospect Data</div>
+      <div class="feature-body">Right person, right role, right direct contact details — verified before anyone makes contact. No outdated lists. No bounced emails. No wasted calls.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-check">✓</div>
+      <div class="feature-title">Live Buyer Signal Monitoring</div>
+      <div class="feature-body">We watch for signals that tell us when a prospect is actively in a buying cycle — funding rounds, hiring activity, tech changes — so we reach out at exactly the right moment.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-check">✓</div>
+      <div class="feature-title">LinkedIn &amp; Email Outreach Campaigns</div>
+      <div class="feature-body">Personalised, sequenced messaging built around your prospect's actual situation — not a template. Dynamic signalling that adapts as we learn what your ICP responds to.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-check">✓</div>
+      <div class="feature-title">Outbound Call Activity — Timed to Perfection</div>
+      <div class="feature-body">We call every prospect at the right moment. Not cold — informed, researched, and built on the signals and engagement data we've already gathered. Your prospects are warm before we ever pick up the phone.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-check">✓</div>
+      <div class="feature-title">Lead Scoring &amp; Prioritisation</div>
+      <div class="feature-body">Every prospect is scored and ranked. Your team always knows who to focus on and why — so their time is spent on conversations that are most likely to convert.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-check">✓</div>
+      <div class="feature-title">Ongoing Nurture — No Prospect Left Behind</div>
+      <div class="feature-body">If someone says "send me some info" or "call me next quarter" — they go into a nurture sequence that keeps them engaged until the time is right. Nothing falls through the cracks.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-check">✓</div>
+      <div class="feature-title">Weekly Reporting &amp; Strategy Sessions</div>
+      <div class="feature-body">16 weekly sessions over the 4-month trial. You always know what's in the pipeline, what's progressing, and what we're optimising. Full visibility, always.</div>
+    </div>
+  </div>
+  <div style="text-align:center; margin-top:2.5rem;">
+    <a href="#main-form" class="btn-primary">Book My Free Discovery Call →</a>
+  </div>
+</section>
+
+<!-- ── CASE STUDY STRIP ── -->
+<section class="case-study-strip">
+  <p class="case-eyebrow">Case Study · Plug Me In · B2B Commercial Solar</p>
+  <div class="case-number">£4.1M</div>
+  <p class="case-descriptor">
+    <strong>Pipeline built from zero in 6 months.</strong><br/>
+    ICP built from scratch. Outreach across LinkedIn, email, and phone.<br/>
+    Starting pipeline: £0 → 6 months later: £4.1M.
+  </p>
+</section>
+
+<!-- ── TESTIMONIALS ── -->
+<section class="testimonials-dark">
+  <div class="max-w-4xl mx-auto px-6 text-center mb-2" style="max-width:56rem; margin-left:auto; margin-right:auto; padding-left:1.5rem; padding-right:1.5rem; text-align:center; margin-bottom:0.5rem;">
+    <h2 class="t-heading">What Clients <span class="ribbon">Actually Say</span></h2>
+    <p class="t-subheading">Real reviews from real clients — verified and unedited</p>
+  </div>
+
+  <!-- ROW 1 — scrolls LEFT -->
+  <div class="carousel-row">
+    <div class="carousel-wrapper">
+      <div class="carousel-track row-left" id="landing-row-1">
+
+        <div class="t-card">
+          <div class="t-card-header">
+            <div class="t-avatar-placeholder">P</div>
+            <div>
+              <div class="t-reviewer-name">Peter Hobson</div>
+              <div class="t-verified"><span class="t-verified-dot"></span> Verified Client</div>
+            </div>
+          </div>
+          <div class="t-stars">★★★★★</div>
+          <div class="t-title">Quality leads that convert into long-lasting clients</div>
+          <div class="t-body">We have used Call Convert for lead generation for over 12 months. They have delivered quality leads throughout that time. Our contact rate is great and we have converted many of them into long lasting clients. Their overall communication and ongoing optimisation based on our feedback means our outbound lead generation strategy is getting better and better over time.</div>
+          <div class="t-date">Verified Google Review</div>
+        </div>
+
+        <div class="t-card">
+          <div class="t-card-header">
+            <div class="t-avatar-placeholder">O</div>
+            <div>
+              <div class="t-reviewer-name">Oliver Tucker</div>
+              <div class="t-verified"><span class="t-verified-dot"></span> Verified Client</div>
+            </div>
+          </div>
+          <div class="t-stars">★★★★★</div>
+          <div class="t-title">Great company — communication and quality throughout</div>
+          <div class="t-body">Great company. Good communication, reactivity and quality. Shout out to Andy and Craig who are quick to respond and are always checking in. Exactly the kind of agency you want running your outbound.</div>
+          <div class="t-date">Verified Google Review</div>
+        </div>
+
+        <div class="t-card">
+          <div class="t-card-header">
+            <div class="t-avatar-placeholder">K</div>
+            <div>
+              <div class="t-reviewer-name">Keiran Wyatt-Nicolle</div>
+              <div class="t-verified"><span class="t-verified-dot"></span> Verified Client</div>
+            </div>
+          </div>
+          <div class="t-stars">★★★★★</div>
+          <div class="t-title">A breath of fresh air in a competitive market</div>
+          <div class="t-body">A breath of fresh air in a highly competitive market. Irrespective of the market they are working in, their dedication to delivering quality leads is paramount. Their wide reach and impressive network ensures they often bring out of the box solutions to the table.</div>
+          <div class="t-date">Verified Google Review</div>
+        </div>
+
+        <!-- SWAP: add more real testimonials here -->
+        <!-- <div class="t-card">...</div> -->
+        <!-- REAL TESTIMONIAL NEEDED — repeat best above or add new ones -->
+
+        <div class="t-card">
+          <div class="t-card-header">
+            <div class="t-avatar-placeholder">P</div>
+            <div>
+              <div class="t-reviewer-name">Peter Hobson</div>
+              <div class="t-verified"><span class="t-verified-dot"></span> Verified Client</div>
+            </div>
+          </div>
+          <div class="t-stars">★★★★★</div>
+          <div class="t-title">Quality leads that convert into long-lasting clients</div>
+          <div class="t-body">We have used Call Convert for lead generation for over 12 months. They have delivered quality leads throughout that time. Our contact rate is great and we have converted many of them into long lasting clients.</div>
+          <div class="t-date">Verified Google Review</div>
+        </div>
+
+        <div class="t-card">
+          <div class="t-card-header">
+            <div class="t-avatar-placeholder">K</div>
+            <div>
+              <div class="t-reviewer-name">Keiran Wyatt-Nicolle</div>
+              <div class="t-verified"><span class="t-verified-dot"></span> Verified Client</div>
+            </div>
+          </div>
+          <div class="t-stars">★★★★★</div>
+          <div class="t-title">Out of the box solutions — every time</div>
+          <div class="t-body">Irrespective of the market they are working in, their dedication to delivering quality leads is paramount. Their wide reach and impressive network ensures they often bring out of the box solutions to the table.</div>
+          <div class="t-date">Verified Google Review</div>
+        </div>
+
+        <div class="t-card">
+          <div class="t-card-header">
+            <div class="t-avatar-placeholder">O</div>
+            <div>
+              <div class="t-reviewer-name">Oliver Tucker</div>
+              <div class="t-verified"><span class="t-verified-dot"></span> Verified Client</div>
+            </div>
+          </div>
+          <div class="t-stars">★★★★★</div>
+          <div class="t-title">Andy and Craig are always on it</div>
+          <div class="t-body">Great company. Good communication, reactivity and quality. Shout out to Andy and Craig who are quick to respond and are always checking in. Exactly what you want from an outbound agency.</div>
+          <div class="t-date">Verified Google Review</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ROW 2 — scrolls RIGHT -->
+  <div class="carousel-row">
+    <div class="carousel-wrapper">
+      <div class="carousel-track row-right" id="landing-row-2">
+
+        <div class="t-card">
+          <div class="t-card-header">
+            <div class="t-avatar-placeholder">K</div>
+            <div>
+              <div class="t-reviewer-name">Keiran Wyatt-Nicolle</div>
+              <div class="t-verified"><span class="t-verified-dot"></span> Verified Client</div>
+            </div>
+          </div>
+          <div class="t-stars">★★★★★</div>
+          <div class="t-title">Not like any other agency we've worked with</div>
+          <div class="t-body">A breath of fresh air in a highly competitive market. Their dedication to delivering quality leads is paramount — and their wide reach means they always find solutions you wouldn't have thought of yourself.</div>
+          <div class="t-date">Verified Google Review</div>
+        </div>
+
+        <div class="t-card">
+          <div class="t-card-header">
+            <div class="t-avatar-placeholder">P</div>
+            <div>
+              <div class="t-reviewer-name">Peter Hobson</div>
+              <div class="t-verified"><span class="t-verified-dot"></span> Verified Client</div>
+            </div>
+          </div>
+          <div class="t-stars">★★★★★</div>
+          <div class="t-title">Gets better every month</div>
+          <div class="t-body">Their overall communication and ongoing optimisation based on our feedback means our outbound lead generation strategy is getting better and better over time. A long-term partner, not just a supplier.</div>
+          <div class="t-date">Verified Google Review</div>
+        </div>
+
+        <div class="t-card">
+          <div class="t-card-header">
+            <div class="t-avatar-placeholder">O</div>
+            <div>
+              <div class="t-reviewer-name">Oliver Tucker</div>
+              <div class="t-verified"><span class="t-verified-dot"></span> Verified Client</div>
+            </div>
+          </div>
+          <div class="t-stars">★★★★★</div>
+          <div class="t-title">Reactive, quality, and always checking in</div>
+          <div class="t-body">Good communication, reactivity and quality throughout. They genuinely care about your results — not just your retainer. Andy and Craig are the kind of team you want in your corner.</div>
+          <div class="t-date">Verified Google Review</div>
+        </div>
+
+        <!-- SWAP: add real testimonials here as they come in -->
+        <!-- REAL TESTIMONIAL NEEDED -->
+
+        <div class="t-card">
+          <div class="t-card-header">
+            <div class="t-avatar-placeholder">P</div>
+            <div>
+              <div class="t-reviewer-name">Peter Hobson</div>
+              <div class="t-verified"><span class="t-verified-dot"></span> Verified Client</div>
+            </div>
+          </div>
+          <div class="t-stars">★★★★★</div>
+          <div class="t-title">12 months and still going strong</div>
+          <div class="t-body">We have used Call Convert for over 12 months. They have delivered quality leads throughout — and our contact rate is great. We have converted many into long-lasting clients.</div>
+          <div class="t-date">Verified Google Review</div>
+        </div>
+
+        <div class="t-card">
+          <div class="t-card-header">
+            <div class="t-avatar-placeholder">K</div>
+            <div>
+              <div class="t-reviewer-name">Keiran Wyatt-Nicolle</div>
+              <div class="t-verified"><span class="t-verified-dot"></span> Verified Client</div>
+            </div>
+          </div>
+          <div class="t-stars">★★★★★</div>
+          <div class="t-title">Wide reach and impressive network</div>
+          <div class="t-body">Irrespective of the market they are working in, their dedication is clear. Their wide reach and impressive network ensures they often bring solutions to the table you wouldn't have found on your own.</div>
+          <div class="t-date">Verified Google Review</div>
+        </div>
+
+        <div class="t-card">
+          <div class="t-card-header">
+            <div class="t-avatar-placeholder">O</div>
+            <div>
+              <div class="t-reviewer-name">Oliver Tucker</div>
+              <div class="t-verified"><span class="t-verified-dot"></span> Verified Client</div>
+            </div>
+          </div>
+          <div class="t-stars">★★★★★</div>
+          <div class="t-title">Quick to respond, always on your side</div>
+          <div class="t-body">Great company. Quick to respond and always checking in. You feel like they're invested in your results — not just delivering a service and moving on. Highly recommend.</div>
+          <div class="t-date">Verified Google Review</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── IS THIS RIGHT FOR YOU ── -->
+<section class="fit-section">
+  <div class="text-center" style="margin-bottom:2.5rem;">
+    <span class="section-label" style="color: var(--color-accent-dk);">Qualification</span>
+    <h2 class="section-heading" style="color: var(--color-text-dark);">Is This <span class="ribbon">Right For You?</span></h2>
+    <p class="section-sub" style="color: var(--color-text-muted-dark); margin-top:0.5rem;">We don't work with everyone. Here's who we're built for.</p>
+  </div>
+  <div class="fit-list">
+    <div class="fit-item">
+      <div class="fit-check">✓</div>
+      <p class="fit-text">You're a <strong>Sales Director, BDM, or Founder</strong> and your pipeline is inconsistent — good some months, worrying others.</p>
+    </div>
+    <div class="fit-item">
+      <div class="fit-check">✓</div>
+      <p class="fit-text">You rely too heavily on <strong>referrals and introductions</strong> — you know it, and you know it's not a scalable strategy.</p>
+    </div>
+    <div class="fit-item">
+      <div class="fit-check">✓</div>
+      <p class="fit-text">You've <strong>tried agencies before and been burned</strong> — templated emails, poor data, promises that didn't materialise.</p>
+    </div>
+    <div class="fit-item">
+      <div class="fit-check">✓</div>
+      <p class="fit-text">You sell a <strong>high-ticket B2B product or service</strong> in a niche sector — and the usual advertising channels have never really worked for you.</p>
+    </div>
+    <div class="fit-item">
+      <div class="fit-check">✓</div>
+      <p class="fit-text">You have a <strong>small sales team</strong> that is trying to do everything — account management, BDM, and prospecting — and it's stretched too thin.</p>
+    </div>
+    <div class="fit-item">
+      <div class="fit-check">✓</div>
+      <p class="fit-text">You're serious about growth and you're ready to <strong>back a system properly</strong> — not dip a toe in and hope for the best.</p>
+    </div>
+  </div>
+  <div style="text-align:center; margin-top:2.5rem;">
+    <a href="#main-form" class="btn-primary" style="background: var(--color-accent-dk); color: #ffffff;">
+      Book My Free Discovery Call →
+      <span class="btn-sub" style="color: rgba(255,255,255,0.75);">We'll confirm on the call if we're the right fit</span>
+    </a>
+  </div>
+</section>
+
+<!-- ── PRICING ── -->
+<section class="pricing-section">
+  <div class="text-center" style="margin-bottom:2.5rem;">
+    <span class="section-label">Transparent Pricing</span>
+    <h2 class="section-heading">The Investment.<br/><span class="ribbon">The Value.</span></h2>
+    <p class="section-sub" style="margin-top:0.75rem;">Everything you get — and what it's worth.</p>
+  </div>
+
+  <div class="pricing-card">
+    <div class="pricing-header">
+      <div class="pricing-label">4-Month Trial</div>
+      <div class="pricing-name">The Call Convert Sales System</div>
+      <div class="pricing-amount">£2,250 <span>/month</span></div>
+      <div class="pricing-compare">vs. a mid-level UK SDR at £3,000–3,500/month in salary alone — before NI, tools, or a 4–6 month ramp</div>
+    </div>
+    <div class="pricing-body">
+      <div class="pricing-line">
+        <span class="pricing-line-name">ICP Build &amp; Sales Territory Mapping</span>
+        <span class="pricing-line-value">£1,500</span>
+      </div>
+      <div class="pricing-line">
+        <span class="pricing-line-name">Fully enriched &amp; validated live prospect data</span>
+        <span class="pricing-line-value">£2,000</span>
+      </div>
+      <div class="pricing-line">
+        <span class="pricing-line-name">LinkedIn outreach campaign (4 months)</span>
+        <span class="pricing-line-value">£3,600</span>
+      </div>
+      <div class="pricing-line">
+        <span class="pricing-line-name">Cold email campaign with deliverability setup</span>
+        <span class="pricing-line-value">£2,400</span>
+      </div>
+      <div class="pricing-line">
+        <span class="pricing-line-name">Outbound call activity &amp; SDR coverage (4 months)</span>
+        <span class="pricing-line-value">£6,400</span>
+      </div>
+      <div class="pricing-line">
+        <span class="pricing-line-name">Live buyer signal monitoring</span>
+        <span class="pricing-line-value">£1,200</span>
+      </div>
+      <div class="pricing-line">
+        <span class="pricing-line-name">16 weekly reporting &amp; strategy sessions</span>
+        <span class="pricing-line-value">£3,200</span>
+      </div>
+      <div class="pricing-line">
+        <span class="pricing-line-name">AI ICP Optimisation × 4 months</span>
+        <span class="pricing-line-value">£2,000</span>
+      </div>
+      <div class="pricing-line">
+        <span class="pricing-line-name">Ongoing nurture of all prospects in the system</span>
+        <span class="pricing-line-value">£1,800</span>
+      </div>
+      <div class="pricing-line" style="border-top: 1px solid rgba(155,255,139,0.15); margin-top:0.5rem; padding-top:1rem;">
+        <span class="pricing-line-name" style="color: var(--color-accent); font-weight:600;">BONUS: Pipeline Kickstart Call (Week 1)</span>
+        <span class="pricing-line-value">£500</span>
+      </div>
+      <div class="pricing-line">
+        <span class="pricing-line-name" style="color: var(--color-accent); font-weight:600;">BONUS: Competitor Intel Report</span>
+        <span class="pricing-line-value">£300</span>
+      </div>
+      <div class="pricing-line">
+        <span class="pricing-line-name" style="color: var(--color-accent); font-weight:600;">BONUS: Rate lock for full 12-month contract</span>
+        <span class="pricing-line-value" style="color: var(--color-accent);">Priceless</span>
+      </div>
+    </div>
+    <div class="pricing-total-row">
+      <span class="pricing-total-label">Total Real-World Value</span>
+      <span class="pricing-total-value">£24,900+</span>
+    </div>
+  </div>
+
+  <div class="guarantee-box">
+    <div class="guarantee-icon">🛡️</div>
+    <div>
+      <div class="guarantee-title">The "No Stone Unturned" Guarantee</div>
+      <div class="guarantee-body">Complete the 4-month trial. Work with our team. Give us honest feedback each week. If at the end of 4 months your pipeline hasn't grown — meaning no new qualified meetings have been booked and no new prospects have entered your sales system — we'll refund your final month in full. No negotiation. No argument. No small print. We've never had to pay it out.</div>
+    </div>
+  </div>
+
+  <div style="text-align:center; margin-top:2.5rem;">
+    <a href="#main-form" class="btn-primary">Book My Free Discovery Call →</a>
+  </div>
+</section>
+
+<!-- ── CTA STRIP (Version B — External Form/Booking) ── -->
+<!--
+  VERSION B: External CTA
+  Hero anchor (#main-form) scrolls here.
+  SWAP: replace href="#" on both buttons with your booking/form URL.
+  Sticky mobile CTA also links here via #main-form.
+-->
+<section class="cta-strip" id="main-form">
+  <div class="cta-strip-inner">
+
+    <!-- Eyebrow -->
+    <div class="cta-strip-eyebrow">Free · 20 Minutes · No Pitch</div>
+
+    <!-- Headline -->
+    <h2 class="cta-strip-heading">
+      Ready to Build a Pipeline<br/>
+      That <span class="cta-accent">Doesn't Depend on Referrals?</span>
+    </h2>
+
+    <!-- Sub-line -->
+    <p class="cta-strip-sub">
+      Book a free 20-minute discovery call. We'll tell you honestly whether the system is right for your business — and walk away with your ICP framework either way.
+    </p>
+
+    <!-- Trust signals row -->
+    <div class="cta-trust-row">
+      <span class="cta-trust-item">🛡️ Money-back guarantee</span>
+      <span class="cta-trust-divider">·</span>
+      <span class="cta-trust-item">⚡ Max 3 clients/month</span>
+      <span class="cta-trust-divider">·</span>
+      <span class="cta-trust-item">★★★★★ 5-star rated</span>
+    </div>
+
+    <!-- Primary CTA button -->
+    <!-- SWAP: replace href="#" with your Calendly / GHL calendar / Typeform URL -->
+    <a href="#" class="btn-cta-strip" target="_blank" rel="noopener">
+      Book My Free Discovery Call →
+      <span class="btn-cta-sub">Takes 2 minutes · We'll confirm within 2 hours</span>
     </a>
 
-    <p style="font-size:0.8rem; color: rgba(255,255,255,0.25); margin-top:1.25rem;">
-      Call Convert · callconvert.co.uk · hello@callconvert.co.uk
+    <!-- Guarantee restatement -->
+    <p class="cta-guarantee-line">
+      Complete the 4-month trial. If your pipeline hasn't grown and no meetings have been booked, your final month is refunded. No argument. No small print.
     </p>
 
   </div>
 </section>
 
-<!-- FOOTER -->
-<footer style="border-top: 1px solid var(--color-border); position:relative; z-index:1; background: var(--color-dark);" class="py-6 px-6 text-center">
-  <p style="font-size:0.75rem; color: var(--color-muted);">
-    © <span id="year"></span> Call Convert. All Rights Reserved.
-    &nbsp;|&nbsp;<a href="#" style="color: var(--color-muted); text-decoration:none;">Privacy Policy</a>
-    &nbsp;|&nbsp;<a href="#" style="color: var(--color-muted); text-decoration:none;">Earnings Disclaimer</a>
-    &nbsp;|&nbsp;<a href="#" style="color: var(--color-muted); text-decoration:none;">Terms & Conditions</a>
+<!-- ── FAQ ── -->
+<section class="faq-section">
+  <div class="text-center" style="margin-bottom:2.5rem;">
+    <span class="section-label" style="color: var(--color-accent-dk);">Common Questions</span>
+    <h2 class="section-heading" style="color: var(--color-text-dark);">Your Questions <span class="ribbon">Answered</span></h2>
+  </div>
+  <div class="faq-list">
+    <details class="faq-item">
+      <summary>We've tried agencies before and it didn't work. How is Call Convert different? <span class="faq-arrow">▾</span></summary>
+      <div class="faq-body">Most agencies send templated messages to generic lists and call it outbound. We don't. Every campaign starts with your specific ICP, built from scratch in a dedicated session. The data is validated before anyone contacts a prospect. Buying signals tell us when to reach out. And every single prospect is worked across LinkedIn, email, and phone — not just emailed once and forgotten. That's a fundamentally different product — and the results are fundamentally different too.</div>
+    </details>
+    <details class="faq-item">
+      <summary>How many meetings can you guarantee? <span class="faq-arrow">▾</span></summary>
+      <div class="faq-body">Nobody can guarantee a specific number without knowing your market, your offer, and your sales cycle — and anyone who does is lying to you. What we can guarantee is this: every prospect that enters the system gets fully worked — LinkedIn, email, and phone — until we know whether they're buying or not. You get a live pipeline view at all times. And if after 4 months your pipeline hasn't grown at all, your final month is refunded in full.</div>
+    </details>
+    <details class="faq-item">
+      <summary>How much of my time does this take? <span class="faq-arrow">▾</span></summary>
+      <div class="faq-body">Your involvement is the ICP build session at the start, a weekly 30-minute reporting meeting, and attending the meetings we book. That's it. The system, the outreach, the data, the nurturing — we run all of it. Your team's only job is to show up and close.</div>
+    </details>
+    <details class="faq-item">
+      <summary>What does £2,250/month actually compare to? <span class="faq-arrow">▾</span></summary>
+      <div class="faq-body">A mid-level SDR in the UK costs £35,000–£45,000 per year in salary alone — that's £2,900–£3,750/month before National Insurance, before tools, before a 4–6 month ramp period before they're effective. And they leave. At £2,250/month you get a full team, a proven system, live validated data, and a money-back guarantee. The risk calculation isn't close.</div>
+    </details>
+    <details class="faq-item">
+      <summary>What happens after the 4-month trial? <span class="faq-arrow">▾</span></summary>
+      <div class="faq-body">If you want to continue — and the vast majority of clients do — you move into a 12-month contract at the same rate. Everything built in the trial (ICP, prospect data, campaign history, engagement signals) carries over and compounds. The system keeps building. The pipeline keeps growing.</div>
+    </details>
+    <details class="faq-item">
+      <summary>Do you work with any B2B business? <span class="faq-arrow">▾</span></summary>
+      <div class="faq-body">We work with B2B businesses of 3+ people across the UK — particularly those in niche sectors with high-ticket offers where traditional advertising hasn't worked. We don't work with B2C businesses or 1–2 person operations — the system isn't designed for them and we won't take your money knowing that. The discovery call is where we confirm fit honestly, on both sides.</div>
+    </details>
+  </div>
+</section>
+
+<!-- ── FINAL CTA ── -->
+<section class="final-cta">
+  <h2>Don't Let Another Quarter Pass Without a Pipeline.</h2>
+  <a href="#main-form" class="btn-primary" style="margin-top:1.5rem; display:inline-block;">
+    Book My Free Discovery Call →
+    <span class="btn-sub">20 minutes · No pitch · Honest conversation</span>
+  </a>
+  <p>Call Convert · Manchester, UK · <a href="mailto:hello@callconvert.co.uk" style="color: var(--color-accent); text-decoration:none;">hello@callconvert.co.uk</a><br/><!-- SWAP: add phone number here --></p>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <p>
+    © Call Convert Ltd. All rights reserved. · Manchester | Leeds | Dublin<br/>
+    <a href="[SWAP: privacy policy URL]">Privacy Policy</a> &nbsp;·&nbsp;
+    <a href="[SWAP: terms URL]">Terms &amp; Conditions</a> &nbsp;·&nbsp;
+    <a href="[SWAP: earnings disclaimer URL]">Earnings Disclaimer</a>
   </p>
 </footer>
 
-<!-- STICKY CTA (mobile) -->
+<!-- ── STICKY MOBILE CTA ── -->
+<!-- SWAP: replace href="#main-form" with your external booking URL for Version B -->
 <div class="sticky-cta">
-  <a href="05-booking.html" class="btn-primary" style="font-size:1rem; padding:0.9rem 1.5rem;">
-    Book Free Discovery Call →
-  </a>
+  <a href="#main-form">Book My Free Discovery Call →</a>
 </div>
 
 <script>
-  document.getElementById('year').textContent = new Date().getFullYear();
-  document.querySelectorAll('.marquee-track').forEach(t => { t.innerHTML += t.innerHTML; });
+  /* ── TICKER DUPLICATION ── */
+  const ticker = document.getElementById('ticker-track');
+  if (ticker) ticker.innerHTML += ticker.innerHTML;
+
+  /* ── CAROUSEL DUPLICATION ── */
+  ['landing-row-1', 'landing-row-2'].forEach(id => {
+    const track = document.getElementById(id);
+    if (track) track.innerHTML += track.innerHTML;
+  });
+
+  /* ── VERSION B: No on-page form — CTA links to external booking URL ── */
+  /* SWAP: update href="#" on .btn-cta-strip with your Calendly / GHL / Typeform URL */
+  /* Your external tool should redirect to 02-thank-you.html on completion */
 </script>
 
 </body>
