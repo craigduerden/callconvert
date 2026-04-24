@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>You're In — Call Convert Pipeline Starter</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;900&family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --color-bg-dark:          #111111;
+      --color-bg-mid:           #1e1e1e;
+      --color-bg-light:         #f5f4f0;
+      --color-bg-white:         #ffffff;
+      --color-text-dark:        #111111;
+      --color-text-light:       #f0f0f0;
+      --color-text-muted-dark:  #444444;
+      --color-text-muted-light: #a0a0a0;
+      --color-accent:           #9bff8b;
+      --color-accent-dk:        #7de06c;
+      --font-display: 'Outfit', sans-serif;
+      --font-body:    'Inter', sans-serif;
+      --font-serif:   'Lora', serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font-body); background: var(--color-bg-white); }
+
+    /* ---- NAV ---- */
+    .nav { background: var(--color-bg-dark); padding: 1.25rem 1.5rem; display: flex; align-items: center; justify-content: center; }
+    .nav-logo-placeholder { font-family: var(--font-display); font-weight: 700; font-size: 1.3rem; color: #fff; letter-spacing: -0.01em; }
+
+    /* ---- CONFIRMATION HERO ---- */
+    .confirm-section {
+      background: var(--color-bg-dark);
+      padding: 5rem 1.5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .confirm-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 40%, rgba(155,255,139,0.07) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .confirm-inner { position: relative; z-index: 1; max-width: 680px; margin: 0 auto; }
+
+    @keyframes pulse-tick {
+      0%   { transform: scale(0.8); opacity: 0; }
+      60%  { transform: scale(1.1); opacity: 1; }
+      100% { transform: scale(1);   opacity: 1; }
+    }
+    .confirm-tick {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: var(--color-accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 2rem;
+      font-size: 2.2rem;
+      color: #111111;
+      animation: pulse-tick 0.5s ease both;
+    }
+    .confirm-section h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 900;
+      color: #ffffff;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-bottom: 1.25rem;
+    }
+    .confirm-section p {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 1.1rem;
+      color: var(--color-text-muted-light);
+      line-height: 1.65;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+    .confirm-next-step {
+      margin-top: 2rem;
+      display: inline-block;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      padding: 1rem 1.5rem;
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      color: var(--color-text-muted-light);
+      line-height: 1.65;
+      max-width: 500px;
+      text-align: left;
+    }
+    .confirm-next-step strong { color: #ffffff; font-weight: 600; }
+
+    /* ---- WHAT HAPPENS NEXT ---- */
+    .next-section { background: var(--color-bg-light); padding: 5rem 1.5rem; }
+    .next-section h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 4vw, 2.4rem);
+      font-weight: 700;
+      color: var(--color-text-dark);
+      letter-spacing: -0.01em;
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
+    .next-sub {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--color-text-muted-dark);
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    .next-steps { max-width: 740px; margin: 0 auto; display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+    @media (min-width: 640px) { .next-steps { grid-template-columns: 1fr 1fr 1fr; } }
+    .next-step { background: var(--color-bg-white); border: 1px solid #e5e7eb; border-radius: 10px; padding: 1.5rem; text-align: center; }
+    .next-step-num {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--color-accent);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display); font-weight: 700; font-size: 1rem; color: #111111;
+      margin: 0 auto 1rem;
+    }
+    .next-step h3 { font-family: var(--font-display); font-size: 1rem; font-weight: 700; color: var(--color-text-dark); margin-bottom: 0.5rem; }
+    .next-step p { font-family: var(--font-body); font-size: 0.875rem; color: var(--color-text-muted-dark); line-height: 1.6; }
+
+    /* ---- TESTIMONIALS ---- */
+    .testimonials-light { background: var(--color-bg-white); padding: 5rem 0; overflow: hidden; }
+    .t-heading { font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3rem); font-weight: 700; text-align: center; margin-bottom: 0.5rem; letter-spacing: -0.01em; }
+    .testimonials-light .t-heading { color: var(--color-text-dark); }
+    .t-subheading { font-family: var(--font-serif); font-style: italic; font-size: 1.05rem; text-align: center; margin-bottom: 3rem; }
+    .testimonials-light .t-subheading { color: var(--color-text-muted-dark); }
+    .ribbon { display: inline-block; background: var(--color-accent); color: #fff; padding: 0.15em 0.6em; font-family: var(--font-display); font-weight: 700; letter-spacing: 0.04em; transform: skewX(-4deg); }
+    .carousel-wrapper {
+      overflow: hidden; width: 100%;
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+      mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+    }
+    .carousel-track { display: flex; gap: 1rem; width: max-content; will-change: transform; }
+    @keyframes scrollLeft  { 0% { transform: translateX(0); }    100% { transform: translateX(-50%); } }
+    @keyframes scrollRight { 0% { transform: translateX(-50%); } 100% { transform: translateX(0); } }
+    .carousel-track.row-left  { animation: scrollLeft  35s linear infinite; }
+    .carousel-track.row-right { animation: scrollRight 35s linear infinite; }
+    .carousel-wrapper:hover .carousel-track { animation-play-state: paused; }
+    .carousel-row { margin-bottom: 1rem; }
+    .carousel-row:last-child { margin-bottom: 0; }
+    .t-card { width: 320px; flex-shrink: 0; border-radius: 10px; padding: 1.25rem 1.5rem; display: flex; flex-direction: column; gap: 0.6rem; transition: transform 0.2s ease; }
+    .t-card:hover { transform: translateY(-3px); }
+    .testimonials-light .t-card { background: var(--color-bg-white); border: 1px solid #e5e7eb; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+    .t-card-header { display: flex; align-items: center; gap: 0.6rem; }
+    .t-avatar-placeholder { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 0.9rem; font-weight: 700; flex-shrink: 0; color: #fff; background: var(--color-accent); }
+    .t-reviewer-name { font-family: var(--font-display); font-size: 0.95rem; font-weight: 600; line-height: 1.2; }
+    .testimonials-light .t-reviewer-name { color: var(--color-text-dark); }
+    .t-verified { display: flex; align-items: center; gap: 0.3rem; font-size: 0.7rem; font-family: var(--font-body); }
+    .testimonials-light .t-verified { color: var(--color-text-muted-dark); }
+    .t-verified-dot { width: 14px; height: 14px; border-radius: 50%; background: #22c55e; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .t-verified-dot::after { content: '✓'; color: white; font-size: 8px; font-weight: 700; }
+    .t-stars { color: #f59e0b; font-size: 0.85rem; letter-spacing: 0.05em; }
+    .t-title { font-family: var(--font-display); font-size: 0.95rem; font-weight: 600; line-height: 1.3; }
+    .testimonials-light .t-title { color: var(--color-text-dark); }
+    .t-body { font-family: var(--font-body); font-size: 0.875rem; line-height: 1.55; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+    .testimonials-light .t-body { color: var(--color-text-muted-dark); }
+    .t-date { font-family: var(--font-body); font-size: 0.72rem; margin-top: auto; padding-top: 0.5rem; border-top: 1px solid; }
+    .testimonials-light .t-date { color: #9ca3af; border-color: #f3f4f6; }
+
+    /* ---- FOOTER ---- */
+    .footer { background: #000000; padding: 1.5rem; text-align: center; }
+    .footer p { font-family: var(--font-body); font-size: 0.7rem; color: rgba(255,255,255,0.3); line-height: 1.8; }
+    .footer a { color: rgba(255,255,255,0.4); text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <img src="https://callconvert.co.uk/img/logo/callconvert-logo.svg" alt="Call Convert" style="height:36px;">
+</nav>
+
+<!-- CONFIRMATION -->
+<section class="confirm-section">
+  <div class="confirm-inner">
+    <div class="confirm-tick">✓</div>
+    <h1>You're In — We'll Be In Touch Shortly.</h1>
+    <p>Your enquiry is with the Call Convert team. We'll confirm your ICP session date within one working day.</p>
+    <div class="confirm-next-step">
+      <strong>What happens next:</strong> A member of our team will be in touch within one working day on the contact details you provided. We'll confirm your ICP session date and answer any questions before you get started. If you'd prefer to speak sooner, call us directly at <strong><a href="tel:[SWAP: phone number]" style="color:var(--color-accent);">[SWAP: phone number]</a></strong>.
+    </div>
+  </div>
+</section>
+
+<!-- WHAT HAPPENS NEXT -->
+<section class="next-section">
+  <div class="max-w-3xl mx-auto">
+    <h2>Here's What <span class="ribbon">Happens Next</span></h2>
+    <p class="next-sub">Three weeks from now, your team is running proper outbound.</p>
+    <div class="next-steps">
+      <div class="next-step">
+        <div class="next-step-num">1</div>
+        <h3>We confirm your ICP session</h3>
+        <p>Within one working day, we'll confirm your 90-minute ICP Build Session date. Usually within 5 working days of payment.</p>
+      </div>
+      <div class="next-step">
+        <div class="next-step-num">2</div>
+        <h3>We build your list and playbook</h3>
+        <p>500 validated prospects enriched to retainer standard. Messaging playbook written for your ICP and your offer. Ready in week two.</p>
+      </div>
+      <div class="next-step">
+        <div class="next-step-num">3</div>
+        <h3>Your team starts running it</h3>
+        <p>Handover call in week three. We walk your team through everything. They start the same day. You run it for 90 days.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS — LIGHT VERSION -->
+<section class="testimonials-light">
+  <div class="max-w-4xl mx-auto px-6 text-center mb-2">
+    <h2 class="t-heading">What Other Clients <span class="ribbon">Say</span></h2>
+    <p class="t-subheading">You're in good company.</p>
+  </div>
+
+  <div class="carousel-row">
+    <div class="carousel-wrapper">
+      <div class="carousel-track row-left" id="ty-row-1">
+
+        <div class="t-card">
+          <div class="t-card-header">
+            <div class="t-avatar-placeholder">P</div>
+            <div>
+              <div class="t-reviewer-name">Peter Hobson</div>
+              <div class="t-verified"><span class="t-verified-dot"></span> Verified Client</div>
+            </div>
+          </div>
+          <div class="t-stars">★★★★★</div>
+          <div class="t-title">Quality leads that convert into long-lasting clients</div>
+          <div class="t-body">We have used Call Convert for lead generation for over 12 months. They have delivered quality leads throughout that time. Our contact rate is great and we have converted many of them into long lasting clients.</div>
+          <div class="t-date">Verified Google Review</div>
+        </div>
+
+        <div class="t-card">
+          <div class="t-card-header">
+            <div class="t-avatar-placeholder">O</div>
+            <div>
+              <div class="t-reviewer-name">Oliver Tucker</div>
+              <div class="t-verified"><span class="t-verified-dot"></span> Verified Client</div>
+            </div>
+          </div>
+          <div class="t-stars">★★★★★</div>
+          <div class="t-title">Exactly the kind of agency you want running your outbound</div>
+          <div class="t-body">Great company. Good communication, reactivity and quality. Shout out to Andy and Craig who are quick to respond and are always checking in.</div>
+          <div class="t-date">Verified Google Review</div>
+        </div>
+
+        <div class="t-card">
+          <div class="t-card-header">
+            <div class="t-avatar-placeholder">S</div>
+            <div>
+              <div class="t-reviewer-name">Stevam Kobiljski</div>
+              <div class="t-verified"><span class="t-verified-dot"></span> Verified Client</div>
+            </div>
+          </div>
+          <div class="t-stars">★★★★★</div>
+          <div class="t-title">Doubled our close rate in 6 weeks</div>
+          <div class="t-body">These guys are absolute professionals and amazing at what they do. We've been working together on multiple campaigns for the past year, and the lead quality is unmatched.</div>
+          <div class="t-date">Verified Google Review</div>
+        </div>
+
+        <div class="t-card">
+          <div class="t-card-header">
+            <div class="t-avatar-placeholder">I</div>
+            <div>
+              <div class="t-reviewer-name">Iain Cherry</div>
+              <div class="t-verified"><span class="t-verified-dot"></span> Verified Client</div>
+            </div>
+          </div>
+          <div class="t-stars">★★★★★</div>
+          <div class="t-title">Best investment for my team this year</div>
+          <div class="t-body">I have recommended their services to a number of companies I have worked with. They have always delivered the results and offer an all round great service.</div>
+          <div class="t-date">Verified Google Review</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="carousel-row">
+    <div class="carousel-wrapper">
+      <div class="carousel-track row-right" id="ty-row-2">
+
+        <div class="t-card">
+          <div class="t-card-header">
+            <div class="t-avatar-placeholder">K</div>
+            <div>
+              <div class="t-reviewer-name">Keiran Wyatt-Nicolle</div>
+              <div class="t-verified"><span class="t-verified-dot"></span> Verified Client</div>
+            </div>
+          </div>
+          <div class="t-stars">★★★★★</div>
+          <div class="t-title">A breath of fresh air in a competitive market</div>
+          <div class="t-body">A breath of fresh air in a highly competitive market. Their dedication to delivering quality leads is paramount. Their wide reach and impressive network ensures they often bring out of the box solutions to the table.</div>
+          <div class="t-date">Verified Google Review</div>
+        </div>
+
+        <div class="t-card">
+          <div class="t-card-header">
+            <div class="t-avatar-placeholder">L</div>
+            <div>
+              <div class="t-reviewer-name">Lee Parkin</div>
+              <div class="t-verified"><span class="t-verified-dot"></span> Verified Client</div>
+            </div>
+          </div>
+          <div class="t-stars">★★★★☆</div>
+          <div class="t-title">Forward-thinking team that delivers results</div>
+          <div class="t-body">Outstanding service, a real pleasure to work with a forward thinking company & individuals who clearly know how to target various markets and deliver results.</div>
+          <div class="t-date">Verified Google Review</div>
+        </div>
+
+        <div class="t-card">
+          <div class="t-card-header">
+            <div class="t-avatar-placeholder">L</div>
+            <div>
+              <div class="t-reviewer-name">Laura Prescott</div>
+              <div class="t-verified"><span class="t-verified-dot"></span> Verified Client</div>
+            </div>
+          </div>
+          <div class="t-stars">★★★★☆</div>
+          <div class="t-title">Helpful, knowledgeable, a pleasure to deal with</div>
+          <div class="t-body">Throughout all of my interactions with the team, the guys have been helpful, accommodating and knowledgeable, working with us to get the best out of our lead generation.</div>
+          <div class="t-date">Verified Google Review</div>
+        </div>
+
+        <div class="t-card">
+          <div class="t-card-header">
+            <div class="t-avatar-placeholder">L</div>
+            <div>
+              <div class="t-reviewer-name">Liam Hoddes</div>
+              <div class="t-verified"><span class="t-verified-dot"></span> Verified Client</div>
+            </div>
+          </div>
+          <div class="t-stars">★★★★★</div>
+          <div class="t-title">Very professional and efficient</div>
+          <div class="t-body">Excellent at what they do. Very professional and efficient. Looking forward to continuing to work with them in the future.</div>
+          <div class="t-date">Verified Google Review</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <p>
+    © Call Convert Ltd. All rights reserved. · Manchester | Leeds | Dublin<br/>
+    <a href="https://www.callconvert.co.uk/policy.php">Privacy Policy</a> &nbsp;·&nbsp;
+    <a href="https://www.callconvert.co.uk/terms.php">Terms &amp; Conditions</a>
+  </p>
+</footer>
+
+<script>
+  ['ty-row-1', 'ty-row-2'].forEach(id => {
+    const track = document.getElementById(id);
+    if (track) track.innerHTML += track.innerHTML;
+  });
+</script>
+
+</body>
+</html>
